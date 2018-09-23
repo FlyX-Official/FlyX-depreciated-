@@ -20,3 +20,14 @@ Once you have done this you can go to `localhost:8080` to see the site.
 The express server is at `localhost:8081` if you wish to see the raw data.
 
 ## Play around with it!
+
+---
+## Helpful tutorial Links
+Vue:
+...https://youtu.be/z6hQqgvGI4Y
+Express:
+...https://youtu.be/gnsO8-xJ8rs
+Webpack:
+...https://youtu.be/GU-2T7k9NfI
+NPM:
+...https://youtu.be/jHDhaSSKmB0
