@@ -25,7 +25,8 @@ The express server is at `localhost:8081` if you wish to see the raw data.
 ## Helpful tutorial Links
 
 Vue:
-  +https://youtu.be/z6hQqgvGI4Y
+
+  + https://youtu.be/z6hQqgvGI4Y
 
 Express:
   *https://youtu.be/gnsO8-xJ8rs
