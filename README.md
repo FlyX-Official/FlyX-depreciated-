@@ -13,7 +13,7 @@ cd into client directory and do `npm run dev`
 
 ### Start Back-End Express server
 cd into server/src directory and do `nodemon app` 
-
+---
 Once you have done this you can go to `localhost:8080` to see the site. 
 The express server is at `localhost:8081` if you wish to see the raw data.
 
