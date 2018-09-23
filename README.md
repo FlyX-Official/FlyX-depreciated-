@@ -5,9 +5,9 @@ WeFly (name pending)
 1. Clone the repo or fetch origin if you already have it cloned.
 2. The core front-end and back-end files are located in the `core` directory.
 3. Install nodejs and NPM.
-4. Do the below instructions.
+4. Do the cli commands stated below.
 5. Go to `localhost:8080`.
-
+---
 ### Start Front-End Vue server
 cd into client directory and do `npm run dev`
 
