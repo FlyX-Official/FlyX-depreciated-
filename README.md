@@ -12,6 +12,8 @@ WeFly (name pending)
 ### Start Front-End Vue server
 cd into client directory and do `npm run dev`
 
+If you get an error try doing `npm install` before doing `npm run dev`
+
 ### Start Back-End Express server
 cd into server/src directory and do `nodemon app` 
 
