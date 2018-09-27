@@ -1,0 +1,2 @@
+Can take a csv files as input and spits a json file as output, then bulk inserts into the Elastick stack, 
+for processing and visualization.
