@@ -1,0 +1,15 @@
+{
+  "name": "skiplaggedtest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bryce Remick",
+  "license": "ISC",
+  "dependencies": {
+    "skiplagged": "0.0.4",
+    "skiplagged-node-api": "^0.1.0"
+  }
+}
