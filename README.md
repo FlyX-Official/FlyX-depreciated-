@@ -38,3 +38,5 @@ The express server is at `localhost:8081` if you wish to see the raw data.
 ### NPM:
   + https://youtu.be/jHDhaSSKmB0
 
+### Git + Github
+  + https://youtu.be/SWYqp7iY_Tc
