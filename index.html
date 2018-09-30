@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>We Fly!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    
+    <script src="main.js"></script>
+
+    <!-- Style -->
+    <style>
+        .bg {
+            background-color: #e5e5e5;
+        }
+
+        .head {
+            height:16.66%;
+            width: 99%;
+            background-color: #fff;
+            border-radius: 0rem;
+            position: fixed !important;
+            z-index: 1;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            align-items: center;
+        }
+
+        .Lmenu {
+            top: 19%;
+            height: 80%;
+            width: 16.66%;
+            background-color: #fff;
+            border-radius: 0rem;
+            position: fixed !important;
+            z-index: 1;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            align-items: center;
+        }
+        .Rmenu {
+            top: 19%;
+            height: 40.5%;
+            width: 16.66%;
+            right:.623%;
+            background-color: #fff;
+            border-radius: 0rem;
+            position: fixed !important;
+            z-index: 1;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            align-items: center;
+        }
+
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+
+        }
+
+        .animate-zoom {
+            animation: animatezoom 0.5s
+        }
+
+        @keyframes animatezoom {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+        .logo
+        {
+            height: 15%;
+            width: 15%;
+            border: 5px;
+            border-color: red;
+        }
+        #map {
+        height: 100%;
+        width:100%;
+        
+      }
+
+    </style>
+
+</head>
+
+<body class="bg">
+  
+    <div id="map" class=" centered " >
+        <h1 > Map here </h1>
+      <iframe src="https://search-wefly-ndmsaxpla3qpn2wtwbevnaig24.us-west-1.es.amazonaws.com/_plugin/kibana/app/kibana#/visualize/edit/91c5ffd0-c46a-11e8-99ce-bd7196a584c5?embed=true&_g=()" height="75%" width="95%"></iframe>
+    </div>
+
+    
+
+</body>
+
+</html>
