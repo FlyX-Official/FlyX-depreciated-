@@ -25,6 +25,10 @@
     .nav-wrap{
         grid-area: nav;
         background-color: #57B8FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
     .tickets-wrap{
         grid-area: tickets;
