@@ -12,10 +12,12 @@ WeFly (name pending)
 ### Start Front-End Vue server
 cd into client directory and do `npm run dev`
 
-If you're doing first time setup and you get an error, do `npm install` before doing `npm run dev`
+If you're doing first time setup/get an error, do `npm install` before doing `npm run dev`
 
 ### Start Back-End Express server
 cd into server/src directory and do `nodemon app` 
+
+If you're doing first time setup/get an error, do `npm install` before doing `nodemon app`
 
 ---
 Once you have done this you can go to `localhost:8080` to see the site. 
