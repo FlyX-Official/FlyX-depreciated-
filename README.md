@@ -17,7 +17,7 @@ If you're doing first time setup/get an error, do `npm install` before doing `np
 ### Start Back-End Express server
 cd into server/src directory and do `nodemon app` 
 
-If you're doing first time setup/get an error, do `npm install` before doing `nodemon app`
+If you're doing first time setup/get an error, do `npm install -g nodemon` and then `npm install` before doing `nodemon app`
 
 ---
 Once you have done this you can go to `localhost:8080` to see the site. 
