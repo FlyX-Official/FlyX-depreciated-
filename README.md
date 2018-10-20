@@ -4,7 +4,7 @@ WeFly (name pending)
 ## Running the dev servers
 1. Clone the repo or sync your branch with master, if you already have it cloned and have a branch.
 2. The core front-end and back-end files are located in the `core` directory.
-3. Install nodejs and NPM.
+3. Install nodejs
 4. Do the cli commands stated below.
 5. Go to `localhost:8080`.
 
