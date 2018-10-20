@@ -9,6 +9,7 @@
   "author": "Bryce Remick",
   "license": "ISC",
   "dependencies": {
+    "moment": "^2.22.2",
     "skiplagged": "0.0.4",
     "skiplagged-node-api": "^0.1.0"
   }
