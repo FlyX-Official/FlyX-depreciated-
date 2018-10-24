@@ -11,7 +11,7 @@ const flightScanner = require('skiplagged-node-api');
 // Init App
 const app = express()
 
-// Setup our middleware
+// Setup middleware
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
@@ -37,25 +37,107 @@ app.get('/myPosts', (req, res) => {
 // This is the block of code that executes when the server recieves a post request
 // with the '/search' endpoint.
 app.post('/search', (req, res) => {
+
+  // log that the form was submitted
   console.log('Form Submitted');
 
+  // Extract the integers from the date string (uses moment library)
   var dateMoment = moment(req.body.date);
   var dayOfMonthInteger = dateMoment.date();
   var monthInteger = dateMoment.month() + 1;
   var yearInteger = dateMoment.year();
 
-  // The res.send() block of code sends a RESPONSE to the client.
-  res.send({
-    message: `From: ${req.body.from}, To: ${req.body.to}, Radius: ${req.body.radius}, Day: ${dayOfMonthInteger}, Month: ${monthInteger}, Year: ${yearInteger}`
+  // Extract source and destination airports
+  var sourceAirport = req.body.from;
+  var destAirport = req.body.to;
+
+  sourceAirport = sourceAirport.toUpperCase();
+  destAirport = destAirport.toUpperCase();
+
+  // Get skiplagged ticket data and store into an array of Promises
+  var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger);
+
+  // Once ALL promises in the ticketArray have resolved...send a response containing the ticketArray
+  Promise.all(ticketArray).then(ticketArray => {
+    res.send({
+      tickets: ticketArray
+    });
   });
 });
 
-//This function will pull all the data from skiplagged API and store in array
-function getSkiplagged(sourceAirport, destAirport, year, date, month){
+//This function will pull ticket data from skiplagged API and return an array of ticket promises
+function getSkiplagged(sourceAirport, destAirport, year, month, date) {
 
+  // create moment date object
+  var dateMoment = moment().year(year).month(month - 1).date(date);
+
+  // log the moment date object
+  console.log(dateMoment);
+
+  // create empty array to store ticket promises
+  var ticketArray = [];
+
+  // for-loop to iterate across multiple days (currently set up to search 7 days)
+  for (let i = 0; i < 7; i++) {
+
+    // create local search options object that we will pass into the skiplagged API
+    let searchOptions = {
+      from: sourceAirport,
+      to: destAirport,
+      departureDate: dateMoment.year() + '-' + concatZero(dateMoment.month() + 1) + '-' + concatZero(dateMoment.date()),
+      partialTrips: true,
+      sort: 'cost'
+    };
+
+    // This is a skiplagged API function that searches a single day
+    const ticketPromise = flightScanner(searchOptions).then(response => {
+
+      // create local ticket object to store the returned data
+      let ticket = {
+        from: sourceAirport,
+        to: destAirport,
+        pennyPrice: 0,
+        duration: '',
+        depature: '',
+        arrival: '',
+        key: '',
+        legs: []
+      }
+
+      // populate the local ticket object with the return data
+      ticket.pennyPrice = response[0].price_pennies;
+      ticket.duration = response[0].durationSeconds;
+      ticket.depature = response[0].departureTime;
+      ticket.arrival = response[0].arrivalTime;
+      ticket.key = response[0].flight_key;
+      ticket.legs = response[0].legs;
+
+      // return the local ticket object as a promise
+      return ticket;
+    });
+
+    // push ticket promise into our ticketArray
+    ticketArray.push(ticketPromise);
+
+    // Increment the date by 1 day
+    dateMoment.add(1, 'days');
+
+  }
+  // return array of ticket promises
+  return ticketArray;
+}
+
+// function to concatinate a zero to a number if is below 10,
+// this is for the skiplagged API data input
+function concatZero(i) {
+  if (i < 10) {
+    return '0' + i;
+  } else {
+    return i;
+  }
 }
 
 // This starts our server on localhost:8081
-app.listen(process.env.PORT || 8081, function(){
+app.listen(process.env.PORT || 8081, function () {
   console.log('server started');
 })

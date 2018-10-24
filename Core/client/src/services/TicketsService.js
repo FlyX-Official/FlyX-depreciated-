@@ -2,7 +2,7 @@
 import Api from '@/services/Api'
 
 export default {
-  fetchPosts () {
-    return Api().get('/myPosts')
+  fetchTickets () {
+    return Api().get('/tickets')
   }
 }
