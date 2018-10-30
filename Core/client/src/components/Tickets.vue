@@ -1,6 +1,17 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
+    <!--
+      You have access to these ticket attributes:
+        arrival: (...)
+        depature: (...)
+        duration: (...)
+        from: (...)
+        key: (...)
+        legs: Array(2)
+        pennyPrice: (...)
+        to: (...)
+    -->
     <div class="ticket" v-for="ticket in tickets" :key="ticket.key">
       <p>
         <span>From: {{ ticket.from}}</span><br>
