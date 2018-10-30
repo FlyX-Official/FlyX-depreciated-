@@ -19,7 +19,7 @@
   import Api from '@/services/Api'
 
   export default {
-    name: 'formTest',
+    name: 'Nav',
     data() {
       return {
         // searchData is the object that exists in our nav component 
@@ -36,11 +36,13 @@
       // This is the function that sends a post request containing 'searchData' to the server
       send: function () {
         Api().post('/search', this.searchData)
-          .then(function (response) {
+          .then(response => {
             // This logs the servers response to the post request
-            console.log(response);
+            console.log('Response Recieved');
+            //This line sends the ticket data to the nav component
+            this.$root.$emit('ticketComm', response.data);
           })
-          .catch(function (error) {
+          .catch(error => {
             // This catches any error the server would send back
             console.log(error);
           });
