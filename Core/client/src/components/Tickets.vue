@@ -1,17 +1,17 @@
 <template>
   <div class="tickets-wrap">
-    <!-- <div v-for="ticket in tickets" :key="ticket.key">
+    <div class="ticketLabel">Tickets</div>
+    <div class="ticket" v-for="ticket in tickets" :key="ticket.key">
       <p>
-        <span><b>{{ ticket.pennyPrice}}</b></span><br />
-        <span>{{ ticket.key }}</span>
+        <span>From: {{ ticket.from}}</span><br>
+        <span>To: {{ ticket.to }}</span><br>
+        <span>Price: ${{ convertPennies(ticket.pennyPrice) }}</span>
       </p>
-    </div> -->
+    </div>
   </div>
 </template>
-<!-- <script>
+<script>
 /* eslint-disable */
-  import TicketsService from '@/services/TicketsService'
-
   export default {
     name: 'tickets',
     data() {
@@ -20,14 +20,16 @@
       }
     },
     mounted() {
-      this.getTickets()
+      this.$root.$on('ticketComm', data => {
+        this.tickets = data.tickets;
+        console.log(data);
+      });
     },
     methods: {
-      async getTickets() {
-        const response = await TicketsService.fetchTickets()
-        this.tickets = response.data
+      convertPennies: function (price) {
+        return price/100;
       }
     }
   }
 
-</script> -->
+</script>
