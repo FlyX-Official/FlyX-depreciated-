@@ -39,7 +39,9 @@
           .then(response => {
             // This logs the servers response to the post request
             console.log('Response Recieved');
-            //This line sends the ticket data to the nav component
+            
+            // This line sends(emits) the ticket data as an event. Other components
+            // can listen for this event to have access to the data that is sent.
             this.$root.$emit('ticketComm', response.data);
           })
           .catch(error => {
