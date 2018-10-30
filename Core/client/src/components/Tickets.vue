@@ -27,16 +27,19 @@
     name: 'tickets',
     data() {
       return {
+        // Instance(component) bound ticket array
         tickets: []
       }
     },
     mounted() {
+      // This block listens for a 'ticketComm' event and then stores the data
+      // that was emitted into our local 'tickets' array.
       this.$root.$on('ticketComm', data => {
         this.tickets = data.tickets;
-        console.log(data);
       });
     },
     methods: {
+      // Function to convert the penny price into a real dollar amount
       convertPennies: function (price) {
         return price/100;
       }
