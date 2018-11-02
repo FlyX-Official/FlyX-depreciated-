@@ -6,18 +6,34 @@
         arrival: (...)
         depature: (...)
         duration: (...)
-        from: (...)
+        from: (...)2
         key: (...)
         legs: Array(2)
         pennyPrice: (...)
         to: (...)
     -->
     <div class="ticket" v-for="ticket in tickets" :key="ticket.key">
-      <p>
-        <span>From: {{ ticket.from}}</span><br>
-        <span>To: {{ ticket.to }}</span><br>
-        <span>Price: ${{ convertPennies(ticket.pennyPrice) }}</span>
-      </p>
+      <div class="ticket-from-to">
+        <p>{{ ticket.from }}</p>
+        <img src="../assets/Divider.svg">
+        <p>{{ ticket.to }}</p>
+      </div>
+      <div class="ticket-price">
+        <p>${{ convertPennies(ticket.pennyPrice) }}</p>
+      </div>
+      <div class="ticket-color"></div>
+      <div class="ticket-departure">
+        <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
+      </div>
+      <div class="ticket-return">
+        <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
+      </div>
+      <div class="ticket-duration">
+        <p>{{ convertSeconds(ticket.duration) }} hours</p>
+      </div>
+      <div class="ticket-legs">
+        <p>{{ ticket.legs.length }} Legs</p>
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +57,21 @@
     methods: {
       // Function to convert the penny price into a real dollar amount
       convertPennies: function (price) {
-        return price/100;
+        return (price/100).toFixed(2);
+      },
+      convertSeconds: function (seconds) {
+        var date = new Date(null);
+        date.setSeconds(seconds); 
+        var timeString = date.toISOString().substr(11, 8);
+
+        let parts = timeString.split(':');
+        let time = parts[0]+':'+parts[1];
+        return time;
+      },
+      removeDay: function (dateStr) {
+        let parts = dateStr.split(',');
+        let date = parts[1]+','+parts[2];
+        return date;
       }
     }
   }

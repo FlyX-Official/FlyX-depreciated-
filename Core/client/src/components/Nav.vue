@@ -7,7 +7,7 @@
       <input type="date" v-model="searchData.date" name="date" id="">
       <input type="submit" value="Go!">
     </form>
-    <span>{{ searchData }}</span>
+  <span>{{ searchData }}</span>
   </div>
 </template>
 
@@ -19,7 +19,6 @@
   import Api from '@/services/Api'
 
   export default {
-    name: 'Nav',
     data() {
       return {
         // searchData is the object that exists in our nav component 
