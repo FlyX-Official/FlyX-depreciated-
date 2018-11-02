@@ -98,7 +98,7 @@ function getSkiplagged(sourceAirport, destAirport, year, month, date) {
         to: destAirport,
         pennyPrice: 0,
         duration: '',
-        depature: '',
+        departure: '',
         arrival: '',
         key: '',
         legs: []
@@ -107,7 +107,7 @@ function getSkiplagged(sourceAirport, destAirport, year, month, date) {
       // populate the local ticket object with the return data
       ticket.pennyPrice = response[0].price_pennies;
       ticket.duration = response[0].durationSeconds;
-      ticket.depature = response[0].departureTime;
+      ticket.departure = response[0].departureTime;
       ticket.arrival = response[0].arrivalTime;
       ticket.key = response[0].flight_key;
       ticket.legs = response[0].legs;

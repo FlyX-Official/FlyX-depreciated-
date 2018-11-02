@@ -5,7 +5,6 @@ $PrimaryFontColor: #2c3e50;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: $PrimaryFontColor;
 }
 body{
@@ -36,11 +35,8 @@ body{
     }
     .tickets-wrap{
         grid-area: tickets;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-direction: column;
         background-color: #fd6b6d;
+        overflow: scroll;
 
         .ticketLabel{
             display: flex;
@@ -49,6 +45,7 @@ body{
             background-color: #fff;
             width: 50%;
             height: 5%;
+            margin: 0 auto;
             margin-top: 10px;
             margin-bottom: 20px;
             border-radius: 20px;
@@ -57,8 +54,95 @@ body{
 
         .ticket{
             width: 90%;
-            margin: 5px 0;
+            height: 175px;
+            margin: 5px auto;
+            border-radius: 10px;
             background-color: #fff;
+            font-family: 'Avenir';
+            font-weight: 800;
+            box-shadow: 1px 0 3px rgba(0,0,0,0.12), 1px 0 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+
+
+            display: grid;
+            grid-template-columns: 1fr 1fr 20px;
+            grid-template-rows: 1fr 25px 25px 25px;
+            grid-template-areas: 
+            "fromTo price colorx"
+            "depart depart colorx"
+            "return return colorx"
+            "dur legs colorx";
+
+            .ticket-from-to{
+                grid-area: fromTo;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                font-size: 25px;
+            }
+            .ticket-price{
+                grid-area: price;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 25px;
+            }
+            .ticket-color{
+                grid-area: colorx;
+
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+            .ticket-departure{
+                grid-area: depart;
+                font-size: 12px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                img{
+                    margin-left: 15px;
+                    margin-right: 10px;
+                }
+            }
+            .ticket-return{
+                grid-area: return;
+                font-size: 12px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                img{
+                    margin-left: 15px;
+                    margin-right: 10px;
+                }
+            }
+            .ticket-duration{
+                grid-area: dur;
+                font-size: 12px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 5px;
+            }
+            .ticket-legs{
+                grid-area: legs;
+                font-size: 12px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 5px;
+            }
+            &:hover{
+                cursor: pointer;
+                box-shadow: 5px 0 10px rgba(0,0,0,0.25), 3px 0 3px rgba(0,0,0,0.22);
+            }
+            &:nth-child(odd) .ticket-color{
+                background-color: #57B8FF;
+            }
+            &:nth-child(even) .ticket-color{
+                background-color: #50e3c2;
+            }
         }
     }
     .map-wrap{
