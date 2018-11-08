@@ -42,10 +42,17 @@ app.post('/search', (req, res) => {
   console.log('Form Submitted');
 
   // Extract the integers from the date string (uses moment library)
-  var dateMoment = moment(req.body.date);
+  var dateMoment = moment(req.body.date.start);
   var dayOfMonthInteger = dateMoment.date();
   var monthInteger = dateMoment.month() + 1;
   var yearInteger = dateMoment.year();
+
+  // Extracts the integer from ending date, subtracts from starting date
+  var endDateMoment = moment(req.body.date.end);
+
+  // Get duration using moment, if difference is 0, input 1 instead, otherwise input difference
+  var duration = (endDateMoment.diff(dateMoment, 'days')) == 0 ? 1 : endDateMoment.diff(dateMoment, 'days');
+  // console.log(duration);
 
   // Extract source and destination airports
   var sourceAirport = req.body.from;
@@ -55,7 +62,7 @@ app.post('/search', (req, res) => {
   destAirport = destAirport.toUpperCase();
 
   // Get skiplagged ticket data and store into an array of Promises
-  var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger);
+  var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger, duration);
 
   // Once ALL promises in the ticketArray have resolved...send a response containing the ticketArray
   Promise.all(ticketArray).then(ticketArray => {
@@ -66,7 +73,7 @@ app.post('/search', (req, res) => {
 });
 
 //This function will pull ticket data from skiplagged API and return an array of ticket promises
-function getSkiplagged(sourceAirport, destAirport, year, month, date) {
+function getSkiplagged(sourceAirport, destAirport, year, month, date, duration) {
 
   // create moment date object
   var dateMoment = moment().year(year).month(month - 1).date(date);
@@ -78,7 +85,7 @@ function getSkiplagged(sourceAirport, destAirport, year, month, date) {
   var ticketArray = [];
 
   // for-loop to iterate across multiple days (currently set up to search 7 days)
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < duration; i++) {
 
     // create local search options object that we will pass into the skiplagged API
     let searchOptions = {
