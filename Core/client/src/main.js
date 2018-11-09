@@ -3,6 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VCalendar from 'v-calendar'
+import 'v-calendar/lib/v-calendar.min.css'
+
+Vue.use(VCalendar)
 // import Vuetify from 'vuetify'
 // import 'vuetify/dist/vuetify.min.css'
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'
