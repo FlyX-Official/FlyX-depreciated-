@@ -3,12 +3,8 @@
     <form @submit.prevent="send()">
       <input type="text" v-model="searchData.from" name="from" placeholder="From">
       <input type="text" v-model="searchData.to" name="to" placeholder="To">
-<<<<<<< HEAD
       <input type="range" name="radius" v-model="searchData.radius" id="radiusID" value="24" min="1" max="50" oninput="radiusValueID.value = radiusID.value" class="slider">
       <output name="radiusValue" id="radiusValueID">24</output>
-      <input type="date" v-model="searchData.date" name="date" id="">
-=======
-      <input type="number" v-model="searchData.radius" name="radius" placeholder="Radius">
        <!-- the vCalendar, see documentation https://docs.vcalendar.io/#welcome-to-v-calendar -->
       <!-- available dates adds contraint to calendar -->
       <v-date-picker
@@ -22,7 +18,6 @@
         show-caps>
       </v-date-picker>
       <!-- <input type="date" v-model="searchData.date" name="date" id=""> -->
->>>>>>> master
       <input type="submit" value="Go!">
     </form>
   <span>{{ searchData }}</span>
