@@ -1,0 +1,253 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.grid-container {
+  display: -ms-grid;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  -ms-grid-columns: 300px 1fr;
+      grid-template-columns: 300px 1fr;
+  -ms-grid-rows: 80px 1fr;
+      grid-template-rows: 80px 1fr;
+      grid-template-areas: "nav nav" "tickets map";
+}
+
+.grid-container .nav-wrap {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: nav;
+  background-color: #57B8FF;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.grid-container .tickets-wrap {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: tickets;
+  background-color: #fd6b6d;
+  overflow: scroll;
+}
+
+.grid-container .tickets-wrap .ticketLabel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #fff;
+  width: 50%;
+  height: 5%;
+  font-weight: 600;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.grid-container .tickets-wrap .ticket {
+  width: 90%;
+  height: 175px;
+  margin: 5px auto;
+  border-radius: 10px;
+  background-color: #fff;
+  font-family: 'Avenir';
+  font-weight: 800;
+  -webkit-box-shadow: 1px 0 3px rgba(0, 0, 0, 0.12), 1px 0 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 1px 0 3px rgba(0, 0, 0, 0.12), 1px 0 2px rgba(0, 0, 0, 0.24);
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 20px;
+      grid-template-columns: 1fr 1fr 20px;
+  -ms-grid-rows: 1fr 25px 25px 25px;
+      grid-template-rows: 1fr 25px 25px 25px;
+      grid-template-areas: "fromTo price colorx" "depart depart colorx" "return return colorx" "dur legs colorx";
+}
+
+.grid-container .tickets-wrap .ticket .ticket-from-to {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: fromTo;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: 25px;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-price {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: price;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 25px;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-color {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 4;
+  -ms-grid-column: 3;
+  grid-area: colorx;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-departure {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: depart;
+  font-size: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-departure img {
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-return {
+  -ms-grid-row: 3;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: return;
+  font-size: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-return img {
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-duration {
+  -ms-grid-row: 4;
+  -ms-grid-column: 1;
+  grid-area: dur;
+  font-size: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 5px;
+}
+
+.grid-container .tickets-wrap .ticket .ticket-legs {
+  -ms-grid-row: 4;
+  -ms-grid-column: 2;
+  grid-area: legs;
+  font-size: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 5px;
+}
+
+.grid-container .tickets-wrap .ticket:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 5px 0 10px rgba(0, 0, 0, 0.25), 3px 0 3px rgba(0, 0, 0, 0.22);
+          box-shadow: 5px 0 10px rgba(0, 0, 0, 0.25), 3px 0 3px rgba(0, 0, 0, 0.22);
+}
+
+.grid-container .tickets-wrap .ticket:nth-child(odd) .ticket-color {
+  background-color: #57B8FF;
+}
+
+.grid-container .tickets-wrap .ticket:nth-child(even) .ticket-color {
+  background-color: #50e3c2;
+}
+
+.grid-container .map-wrap {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: map;
+  overflow: hidden;
+}
+
+.grid-container .map-wrap iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+/*# sourceMappingURL=styles.css.map */

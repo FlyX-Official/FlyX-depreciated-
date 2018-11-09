@@ -45,6 +45,7 @@ body{
             background-color: #fff;
             width: 50%;
             height: 5%;
+            font-weight: 600;
             margin: 0 auto;
             margin-top: 10px;
             margin-bottom: 20px;
@@ -147,12 +148,14 @@ body{
     }
     .map-wrap{
         grid-area: map;
-        overflow: hidden;
-        iframe{
-            border: none;
+
+        #map {
             width: 100%;
-            height:100%;
-        }
+            height: 100%;
+            margin: 0 auto;
+            background: gray;
+            overflow: hidden;
+          }
     }
     
 }
