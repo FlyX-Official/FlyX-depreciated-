@@ -27,12 +27,16 @@ body{
 
     .nav-wrap{
         grid-area: nav;
-       // background-color: #57B8FF;
+        background-color: #57B8FF;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-    }
+        .slider {
+            position: relative;
+            top: 5px;
+        }    
+        }
     .tickets-wrap{
         grid-area: tickets;
         background-color: #fd6b6d;
