@@ -3,9 +3,26 @@
     <form @submit.prevent="send()">
       <input type="text" v-model="searchData.from" name="from" placeholder="From">
       <input type="text" v-model="searchData.to" name="to" placeholder="To">
+<<<<<<< HEAD
       <input type="range" name="radius" v-model="searchData.radius" id="radiusID" value="24" min="1" max="50" oninput="radiusValueID.value = radiusID.value" class="slider">
       <output name="radiusValue" id="radiusValueID">24</output>
       <input type="date" v-model="searchData.date" name="date" id="">
+=======
+      <input type="number" v-model="searchData.radius" name="radius" placeholder="Radius">
+       <!-- the vCalendar, see documentation https://docs.vcalendar.io/#welcome-to-v-calendar -->
+      <!-- available dates adds contraint to calendar -->
+      <v-date-picker
+        is-double-paned
+        :pane-width="180"
+        name="date"
+        mode='range'
+        :available-dates='{ start: new Date(), end: new Date(), span: 90 }'
+        :disabledAttribute='disabledAttribute'
+        v-model='searchData.date'
+        show-caps>
+      </v-date-picker>
+      <!-- <input type="date" v-model="searchData.date" name="date" id=""> -->
+>>>>>>> master
       <input type="submit" value="Go!">
     </form>
   <span>{{ searchData }}</span>
@@ -28,8 +45,17 @@
           from: '',
           to: '',
           radius: '',
-          date: ''
-        }
+          date: {
+            start: new Date(),
+            end: new Date(),
+          }
+        },
+         //works like css, for what is disabled we can choose the style to give the content
+        disabledAttribute: {
+            contentStyle: {
+            opacity: 0.3,
+          }
+        },
       }
     },
     methods: {
