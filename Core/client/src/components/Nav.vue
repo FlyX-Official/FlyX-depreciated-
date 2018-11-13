@@ -23,7 +23,7 @@
     </form>
   <span>{{ searchData }}</span>
   </div>
-</template>S
+</template>
 
 <script>
 /* eslint-disable */
