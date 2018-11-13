@@ -35,7 +35,17 @@ body{
         .slider {
             position: relative;
             top: 5px;
-        }    
+        }
+        .datepicker {
+            position: relative;
+            left: 500px;
+            top: -20px;
+        }
+        input[type=submit] {
+            position: relative;
+            left: 675px;
+            top: -40px;
+        }
         }
     .tickets-wrap{
         grid-area: tickets;
