@@ -12,7 +12,7 @@
         pennyPrice: (...)
         to: (...)
     -->
-    <div class="ticket" v-for="ticket in tickets" :key="ticket.key">
+    <div class="ticket" v-on:click="displayticketdetails" v-for="ticket in tickets" :key="ticket.key" >
       <div class="ticket-from-to">
         <p>{{ ticket.from }}</p>
         <img src="../assets/Divider.svg">
@@ -72,6 +72,10 @@
         let parts = dateStr.split(',');
         let date = parts[1]+','+parts[2];
         return date;
+      },
+      displayticketdetails: function (event) {
+        alert('hello')
+
       }
     }
   }
