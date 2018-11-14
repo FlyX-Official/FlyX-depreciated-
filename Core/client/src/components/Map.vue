@@ -34,12 +34,46 @@
         center: [-28.6731, 14.5994],
         zoom: 1.5
       });
+    map.on('load', function () {
+      var latLongArr = [
+        [[-119.7871, 36.7378],[2.5479, 49.0097]],
+        [[-122.3321, 47.6062],[-73.7781, 40.6413]],
+        [[-104.9903, 39.7392],[-46.6333, -23.5505]]
+      ];
+      for (let i = 0; i < latLongArr.length; i++){
+          map.addLayer({
+        "id": 'route'+i,
+        "type": "line",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": latLongArr[i]
+                }
+            }
+        },
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": '#ff0000',
+            "line-width": 2
+        }
+        });
+        }
     
+    });
 
     },
     methods: {
       addLine: function (map, source, dest) {
 
+      },
+      addLines: function (map, arr) {
         
       }
     }

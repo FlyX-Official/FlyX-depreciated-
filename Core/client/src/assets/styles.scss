@@ -27,7 +27,7 @@ body{
 
     .nav-wrap{
         grid-area: nav;
-        background-color: #57B8FF;
+        background-color: #50E3C2;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -73,7 +73,7 @@ body{
             "fromTo price colorx"
             "depart depart colorx"
             "return return colorx"
-            "dur legs colorx";
+            "durlegs durlegs colorx";
 
             .ticket-from-to{
                 grid-area: fromTo;
@@ -100,39 +100,35 @@ body{
                 grid-area: depart;
                 font-size: 12px;
                 display: flex;
-                justify-content: flex-start;
+                justify-content: center;
                 align-items: center;
                 img{
-                    margin-left: 15px;
+                    //margin-left: 15px;
                     margin-right: 10px;
                 }
+                border-top: 1px dashed #D8D8D8;
             }
             .ticket-return{
                 grid-area: return;
                 font-size: 12px;
                 display: flex;
-                justify-content: flex-start;
+                justify-content: center;
                 align-items: center;
                 img{
-                    margin-left: 15px;
+                    //margin-left: 15px;
                     margin-right: 10px;
                 }
+                border-bottom: 1px dashed #D8D8D8;
             }
-            .ticket-duration{
-                grid-area: dur;
+            .ticket-duration-legs{
+                grid-area: durlegs;
                 font-size: 12px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                margin-bottom: 5px;
-            }
-            .ticket-legs{
-                grid-area: legs;
-                font-size: 12px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-bottom: 5px;
+                p{
+                    margin: 5px 5px;
+                }
             }
             &:hover{
                 cursor: pointer;
