@@ -28,10 +28,8 @@
       <div class="ticket-return">
         <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
       </div>
-      <div class="ticket-duration">
+      <div class="ticket-duration-legs">
         <p>{{ convertSeconds(ticket.duration) }} hours</p>
-      </div>
-      <div class="ticket-legs">
         <p>{{ ticket.legs.length }} Legs</p>
       </div>
     </div>
