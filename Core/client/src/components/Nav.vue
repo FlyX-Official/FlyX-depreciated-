@@ -21,7 +21,7 @@
       <!-- <input type="date" v-model="searchData.date" name="date" id=""> -->
       <input type="submit" value="Go!" class="submitbutton">
     </form>
-  <span>{{ searchData }}</span>
+  <!--<span>{{ searchData }}</span>-->
   </div>
 </template>
 
