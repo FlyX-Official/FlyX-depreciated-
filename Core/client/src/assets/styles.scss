@@ -22,8 +22,16 @@ body{
     grid-template-columns: 300px 1fr;
     grid-template-rows: 80px 1fr;
     grid-template-areas: 
-    "nav nav"
+    "Title nav"
     "tickets map";
+
+    .title-wrap{
+        background-color: #50E3C2;
+        letter-spacing: 1px;
+        text-shadow: 0 0 5px #A5F1FF, 0 0 10px #A5F1FF,
+             0 0 20px #A5F1FF, 0 0 30px #A5F1FF,
+             0 0 40px #A5F1FF;
+    }
 
     .nav-wrap{
         grid-area: nav;
@@ -45,6 +53,11 @@ body{
             position: relative;
             left: 675px;
             top: -40px;
+        }
+        h1 {
+            color: red;
+            text-align: left;
+            
         }
         }
     .tickets-wrap{

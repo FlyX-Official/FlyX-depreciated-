@@ -2,6 +2,7 @@
   <div id="app">
     <!--<router-view/>-->
     <div class="grid-container">
+      <Title />
       <Nav />
       <Tickets />
       <Map />
@@ -13,11 +14,12 @@
 import Nav from './components/Nav'
 import Tickets from './components/Tickets'
 import Map from './components/Map'
+import Title from './components/Title'
 
 export default {
   name: 'App',
   components: {
-    Nav, Tickets, Map
+    Nav, Tickets, Map, Title
   }
 }
 
