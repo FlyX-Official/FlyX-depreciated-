@@ -1,6 +1,8 @@
 WeFly (name pending)
 ===
 
+### Check out our project task tracker: https://github.com/We-Fly/wefly/projects/1
+
 ## Running the dev servers
 1. Clone the repo or sync your branch with master, if you already have it cloned and have a branch.
 2. The core front-end and back-end files are located in the `core` directory.
