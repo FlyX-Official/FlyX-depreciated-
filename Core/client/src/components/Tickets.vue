@@ -1,6 +1,19 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
+    <div id="simpleModal" class="modal" v-on:click="closemodal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="closeBtn" v-on:click="closedetails">&times;</span>
+          <h2>Modal Header</h2>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="Modal Footer">
+          <h2>Modal Footer</h2>
+        </div>
+      </div>
+    </div>
     <!--
       You have access to these ticket attributes:
         arrival: (...)
@@ -12,7 +25,7 @@
         pennyPrice: (...)
         to: (...)
     -->
-    <div class="ticket" v-on:click="displayticketdetails" v-for="ticket in tickets" :key="ticket.key" >
+    <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in tickets" :key="ticket.pennyPrice" >
       <div class="ticket-from-to">
         <p>{{ ticket.from }}</p>
         <img src="../assets/Divider.svg">
@@ -71,10 +84,31 @@
         let date = parts[1]+','+parts[2];
         return date;
       },
-      displayticketdetails: function (event) {
-        alert('hello')
-
+      displayticketdetails: function (ticket) {
+        var modal= document. getElementById('simpleModal');
+        modal.style.display = 'block';
+        console.log(ticket);
+      },
+      closedetails: function (event) {
+        var modal= document. getElementById('simpleModal');
+        modal.style.display = "none";
+      },
+      closemodal: function (event) {
+        var modal= document. getElementById('simpleModal');
+          modal.style.display = "none";
       }
+    },
+    computed: {
+      sortedTickets: function() {
+      function compare(a, b) {
+        if (a.pennyPrice < b.pennyPrice)
+          return -1;
+        if (a.pennyPrice > b.pennyPrice)
+          return 1;
+        return 0;
+      }
+      return this.tickets.sort(compare);
+      },
     }
   }
 

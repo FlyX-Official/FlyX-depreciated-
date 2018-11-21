@@ -27,6 +27,7 @@ body{
 
     .title-wrap{
         background-color: #50E3C2;
+        font-size: 25px;
         letter-spacing: 1px;
         text-shadow: 0 0 5px #A5F1FF, 0 0 10px #A5F1FF,
              0 0 20px #A5F1FF, 0 0 30px #A5F1FF,
@@ -64,6 +65,49 @@ body{
         grid-area: tickets;
         background-color: #fd6b6d;
         overflow: scroll;
+        
+        .modal {
+            display: none;
+            position: fixed;
+            padding-top: 50px;
+            height: 100%;
+            width: 80%;
+            top:0;
+            left: 300px;
+            z-index:1;
+            overflow: auto;
+            background-color: rgba(0,0,0,0);
+        }
+        .modal-content{
+            background-color: white;
+            margin: 10% auto;
+            width: 25%;
+            animation-name: modalopen;
+            animation-duration: .25s;
+        }
+        .modal-header{
+            background: red;
+            padding: 15px;
+            color: #fff;
+        }
+        .closeBtn{
+            color:#ccc;
+            float: right;
+            font-size:30px;
+        }
+        .closeBtn:hover,.closeBtn.focus{
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes modalopen{
+            from{ opacity: 0;}
+            to {opacity: 1;}
+        }
+
+            
+        
 
         .ticketLabel{
             display: flex;
