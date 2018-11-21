@@ -149,11 +149,12 @@ body{
             background-color: rgba(0,0,0,0);
         }
         .modal-content{
-            background-color: white;
+            background-color: rgb(231, 231, 231);
             margin: 10% auto;
             width: 60%;
             animation-name: modalopen;
             animation-duration: .25s;
+            padding-bottom: 50px;
         }
         .modal-header{
             background: #50E3c2;
@@ -171,6 +172,11 @@ body{
             padding-right: 50px;
             padding-top: 10px;
             line-height: 50px; 
+        }
+        .modalticketlegs{
+            border: 2px solid  black;
+            line-height: 30px;
+            font-size: 20px; 
         }
         .closeBtn{
             color:rgb(2, 0, 0);
@@ -209,14 +215,20 @@ body{
         #text6, #ticketarrival{
             display:inline;
         }
+        #text7, #ticketlegs{
+            display:inline;
+        }
         #ticketprice{
+            padding-top: 20px;
             font-size: 75px;
             color: red;
             position: relative;
-            left: 500px;
-            bottom: 250px;
-
+            text-align: center;
         }
+        #ticketlegs{
+            font-size: 20px; 
+        }
+        
         
 
         .ticketLabel{

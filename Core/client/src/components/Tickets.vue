@@ -1,19 +1,19 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
-    <div id="simpleModal" class="modal">
+    <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
         <div class="modal-header">
           <span class="closeBtn" v-on:click="closedetails">&times;</span>
           <h2>Ticket Details</h2>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" v-on:click="modalstayopen">
           <div>
             <h2 id="text1"> Leave From:  </h2>
             <p id="ticketfrom"></p>
           </div>
           <div>
-            <h2 id="text2"> Arive In: </h2>
+            <h2 id="text2"> Arive At: </h2>
             <p id="ticketto"></p>
           </div>
           <div>
@@ -25,12 +25,18 @@
             <p id="ticketduration"></p>
           </div>
           <div>
-            <h2 id="text5"> Departure Date: </h2>
+            <h2 id="text5"> Departure: </h2>
             <p id="ticketdeparture"></p>
           </div>
           <div>
-            <h2 id="text6"> Arrival Date:  </h2>
+            <h2 id="text6"> Arrival:  </h2>
             <p id="ticketarrival"></p>
+          </div>
+          <div class="modalticketlegs">
+            <h2 id="text7"> Legs:  </h2>
+            <p id="ticketlegs"></p>
+            <p id="ticketlegs2"></p>
+            <p id="ticketlegs3"></p>
           </div>
           <div>
             <p id="ticketprice"></p>
@@ -110,19 +116,39 @@
       displayticketdetails: function (ticket) {
         var modal= document. getElementById('simpleModal');
         modal.style.display = 'block';
-        document.getElementById("ticketfrom").innerHTML = ticket.from;
-        document.getElementById("ticketto").innerHTML = ticket.to;
+        document.getElementById("ticketfrom").innerHTML = ticket.legs["0"].departingFrom;
+        document.getElementById("ticketto").innerHTML = ticket.legs[(ticket.legs.length-1)].arrivingAt;
         document.getElementById("ticketairline").innerHTML= ticket.legs["0"].airline;
         document.getElementById("ticketduration").innerHTML = this.convertSeconds(ticket.duration);
-        document.getElementById("ticketarrival").innerHTML = ticket.arrival;
+        document.getElementById("ticketarrival").innerHTML = this.removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime);
         document.getElementById("ticketdeparture").innerHTML = ticket.departure;
         document.getElementById("ticketprice").innerHTML = '$' + this.convertPennies(ticket.pennyPrice);
+        if(ticket.legs.length == 2) {
+          document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["0"].arrivingAt + ' on ' + ticket.legs["0"].arrivalTime + ' Leave on ' + ticket.legs["1"].departureTime;
+        }
+        else if(ticket.legs.length == 3 ){
+          document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["0"].arrivingAt + ' on ' + ticket.legs["0"].arrivalTime + ' Leave on ' + ticket.legs["1"].departureTime;
+          document.getElementById("ticketlegs2").innerHTML = 'Arrive in ' + ticket.legs["1"].arrivingAt + ' on ' + ticket.legs["1"].arrivalTime + ' Leave on ' + ticket.legs["2"].departureTime;
+        }
+        else if(ticket.legs.length == 4){
+          document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["0"].arrivingAt + ' on ' + ticket.legs["0"].arrivalTime + ' Leave on ' + ticket.legs["1"].departureTime;
+          document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["1"].arrivingAt + ' on ' + ticket.legs["1"].arrivalTime + ' Leave on ' + ticket.legs["2"].departureTime;
+          document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["2"].arrivingAt + ' on ' + ticket.legs["2"].arrivalTime + ' Leave on ' + ticket.legs["3"].departureTime;
+        }
+        else{
+          document.getElementById("ticketlegs").innerHTML = 'none';
+        }
         console.log(ticket);
-        
+
       },
-      closedetails: function (event) {
+      closedetails: function () {
         var modal= document. getElementById('simpleModal');
         modal.style.display = "none";
+      },
+      modalstayopen: function (event) {
+        var modal= document. getElementById('simpleModal');
+        modal.style.display = "block";
+        console.log('didnt work');
       },
     },
     computed: {
