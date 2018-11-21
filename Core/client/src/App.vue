@@ -14,12 +14,11 @@
 import Nav from './components/Nav'
 import Tickets from './components/Tickets'
 import Map from './components/Map'
-import Title from './components/Title'
 
 export default {
   name: 'App',
   components: {
-    Nav, Tickets, Map, Title
+    Nav, Tickets, Map
   }
 }
 

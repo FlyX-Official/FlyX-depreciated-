@@ -1,16 +1,40 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
-    <div id="simpleModal" class="modal" v-on:click="closemodal">
+    <div id="simpleModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
           <span class="closeBtn" v-on:click="closedetails">&times;</span>
-          <h2>Modal Header</h2>
+          <h2>Ticket Details</h2>
         </div>
         <div class="modal-body">
-        </div>
-        <div class="Modal Footer">
-          <h2>Modal Footer</h2>
+          <div>
+            <h2 id="text1"> Leave From:  </h2>
+            <p id="ticketfrom"></p>
+          </div>
+          <div>
+            <h2 id="text2"> Arive In: </h2>
+            <p id="ticketto"></p>
+          </div>
+          <div>
+            <h2 id="text3"> Airline:  </h2>
+            <p id="ticketairline"></p>
+          </div>
+          <div>
+            <h2 id="text4"> Duration:  </h2>
+            <p id="ticketduration"></p>
+          </div>
+          <div>
+            <h2 id="text5"> Departure Date: </h2>
+            <p id="ticketdeparture"></p>
+          </div>
+          <div>
+            <h2 id="text6"> Arrival Date:  </h2>
+            <p id="ticketarrival"></p>
+          </div>
+          <div>
+            <p id="ticketprice"></p>
+          </div>
         </div>
       </div>
     </div>
@@ -42,7 +66,6 @@
         <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
       </div>
       <div class="ticket-duration-legs">
-        <p>{{ convertSeconds(ticket.duration) }} hours</p>
         <p>{{ ticket.legs.length }} Legs</p>
       </div>
     </div>
@@ -76,7 +99,7 @@
         var timeString = date.toISOString().substr(11, 8);
 
         let parts = timeString.split(':');
-        let time = parts[0]+':'+parts[1];
+        let time = parts[0]+' Hours '+parts[1]+' minutes';
         return time;
       },
       removeDay: function (dateStr) {
@@ -87,16 +110,20 @@
       displayticketdetails: function (ticket) {
         var modal= document. getElementById('simpleModal');
         modal.style.display = 'block';
+        document.getElementById("ticketfrom").innerHTML = ticket.from;
+        document.getElementById("ticketto").innerHTML = ticket.to;
+        document.getElementById("ticketairline").innerHTML= ticket.legs["0"].airline;
+        document.getElementById("ticketduration").innerHTML = this.convertSeconds(ticket.duration);
+        document.getElementById("ticketarrival").innerHTML = ticket.arrival;
+        document.getElementById("ticketdeparture").innerHTML = ticket.departure;
+        document.getElementById("ticketprice").innerHTML = '$' + this.convertPennies(ticket.pennyPrice);
         console.log(ticket);
+        
       },
       closedetails: function (event) {
         var modal= document. getElementById('simpleModal');
         modal.style.display = "none";
       },
-      closemodal: function (event) {
-        var modal= document. getElementById('simpleModal');
-          modal.style.display = "none";
-      }
     },
     computed: {
       sortedTickets: function() {

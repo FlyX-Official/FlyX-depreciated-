@@ -22,17 +22,8 @@ body{
     grid-template-columns: 300px 1fr;
     grid-template-rows: 100px 1fr;
     grid-template-areas: 
-    "Title nav"
+    "nav nav"
     "tickets map";
-
-    .title-wrap{
-        background-color: #50E3C2;
-        font-size: 25px;
-        letter-spacing: 1px;
-        text-shadow: 0 0 5px #A5F1FF, 0 0 10px #A5F1FF,
-             0 0 20px #A5F1FF, 0 0 30px #A5F1FF,
-             0 0 40px #A5F1FF;
-    }
 
     .nav-wrap{
         grid-area: nav;
@@ -160,19 +151,32 @@ body{
         .modal-content{
             background-color: white;
             margin: 10% auto;
-            width: 25%;
+            width: 60%;
             animation-name: modalopen;
             animation-duration: .25s;
         }
         .modal-header{
-            background: red;
-            padding: 15px;
+            background: #50E3c2;
+            padding: 5px;
+            padding-left: 15px;
             color: #fff;
+            position: relative;
+            text-align:center;
+            font-size: 30px; 
+        }
+        .modal-body{
+            background: rgb(231, 231, 231);
+            padding-left: 15px;
+            font-size: 25px;
+            padding-right: 50px;
+            padding-top: 10px;
+            line-height: 50px; 
         }
         .closeBtn{
-            color:#ccc;
+            color:rgb(2, 0, 0);
             float: right;
-            font-size:30px;
+            padding-right: 10px;
+            font-size:40px;
         }
         .closeBtn:hover,.closeBtn.focus{
             color: black;
@@ -185,7 +189,34 @@ body{
             to {opacity: 1;}
         }
 
-            
+        #ticketfrom, #text1, {
+            display: inline;
+        }  
+       #text2, #ticketto {
+            display: inline;
+            position: relative;
+        } 
+        #text3, #ticketairline {
+            display: inline;
+            position: relative;
+        }
+        #text4, #ticketduration{
+            display:inline;
+        }
+        #text5, #ticketdeparture{
+            display:inline;
+        }
+        #text6, #ticketarrival{
+            display:inline;
+        }
+        #ticketprice{
+            font-size: 75px;
+            color: red;
+            position: relative;
+            left: 500px;
+            bottom: 250px;
+
+        }
         
 
         .ticketLabel{
