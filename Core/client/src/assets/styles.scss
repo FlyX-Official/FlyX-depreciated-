@@ -20,7 +20,7 @@ body{
     width: 100%;
     height: 100%;
     grid-template-columns: 300px 1fr;
-    grid-template-rows: 80px 1fr;
+    grid-template-rows: 100px 1fr;
     grid-template-areas: 
     "Title nav"
     "tickets map";
@@ -38,29 +38,108 @@ body{
         grid-area: nav;
         background-color: #50E3C2;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
-        flex-direction: column;
-        .slider {
-            position: relative;
-            top: 5px;
+        //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        z-index: 6;
+
+        .search-form{
+            display: grid;
+            height: 90%;
+            grid-gap: 6px;
+            margin-right: 15px;
+            grid-template-columns: 160px 160px 100px 75px 75px;
+            grid-template-rows: 1fr 35px  35px 1fr;
+            grid-template-areas:
+            ". . . . ."
+            "fromInput startDate rFrom rFromDisp submit"
+            "toInput returnDate rTo rToDisp submit"
+            ". . . . .";
+
+            .datepicker input{
+                height: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                border: none;
+                padding-left: 5px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+                outline: none;
+            }
+            #from-input{
+                grid-area: fromInput;
+                height: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                border: none;
+                padding-left: 5px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+                vertical-align: middle;
+                outline: none;
+                
+            }
+            #to-input{
+                grid-area: toInput;
+                height: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                border: none;
+                padding-left: 5px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+                outline: none;
+            }
+            #radius-from{
+                grid-area: rFrom;
+            }
+            #radius-to{
+                grid-area: rTo;
+            }
+            #start-datepicker{
+                grid-area: startDate;
+            }
+            #return-datepicker{
+                grid-area: returnDate;
+            }
+            #submit-input{
+                grid-area: submit;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .submit-button{
+                    background-image: url('./assets/submit-btn.svg');
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    width: 75px;
+                    height: 75px;
+                    box-sizing: border-box;
+                    user-select: none;
+                    outline: none;
+                    
+                }
+            }
+            #radius-from-disp{
+                grid-area: rFromDisp;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 14px;
+                color: #fff;
+                font-weight: 700;
+            }
+            #radius-to-disp{
+                grid-area: rToDisp;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 14px;
+                color: #fff;
+                font-weight: 700;
+            }
         }
-        .datepicker {
-            position: relative;
-            left: 500px;
-            top: -20px;
-        }
-        input[type=submit] {
-            position: relative;
-            left: 675px;
-            top: -40px;
-        }
-        h1 {
-            color: red;
-            text-align: left;
-            
-        }
-        }
+    }
     .tickets-wrap{
         grid-area: tickets;
         background-color: #fd6b6d;

@@ -1,16 +1,19 @@
 <template>
   <div class="nav-wrap">
-    <form @submit.prevent="send()">
-      <input type="text" v-model="searchData.from" name="from" placeholder="From">
-      <input type="text" v-model="searchData.to" name="to" placeholder="To">
-      <input type="range" name="radius" v-model="searchData.radius" id="radiusID" value="24" min="1" max="100" oninput="radiusValueID.value = radiusID.value" class="slider">
-      <output name="radiusValue" id="radiusValueID">24</output>
+    <form class="search-form" @submit.prevent="send()">
+      <input type="text" required id="from-input" v-model="searchData.from" name="from" placeholder="From">
+      <input type="text" required id="to-input" v-model="searchData.to" name="to" placeholder="To">
+      <input type="range" name="radius" v-model="searchData.radiusTo" id="radius-from" value="25" min="0" max="50" class="slider">
+      <p id="radius-from-disp">{{ searchData.radiusTo }} miles</p>
+      <input type="range" name="radius" v-model="searchData.radiusFrom" id="radius-to" value="25" min="0" max="50" class="slider">
+      <p id="radius-to-disp">{{ searchData.radiusFrom }} miles</p>
+      <!--<output name="radiusValue" id="radiusValueID">24</output>-->
        <!-- the vCalendar, see documentation https://docs.vcalendar.io/#welcome-to-v-calendar -->
       <!-- available dates adds contraint to calendar -->
       <v-date-picker
         class="datepicker"
-        is-double-paned
-        :pane-width="180"
+        id="start-datepicker"
+        :pane-width="150"
         name="date"
         mode='range'
         :available-dates='{ start: new Date(), end: new Date(), span: 90 }'
@@ -18,8 +21,18 @@
         v-model='searchData.date'
         show-caps>
       </v-date-picker>
-      <!-- <input type="date" v-model="searchData.date" name="date" id=""> -->
-      <input type="submit" value="Go!" class="submitbutton">
+      <v-date-picker
+        class="datepicker"
+        id="return-datepicker"
+        :pane-width="150"
+        name="date"
+        mode='range'
+        :available-dates='{ start: new Date(), end: new Date(), span: 90 }'
+        :disabledAttribute='disabledAttribute'
+        v-model='searchData.date'
+        show-caps>
+      </v-date-picker>
+      <div id="submit-input"><input type="image" src="../assets/submit-btn.svg" alt="" class="submit-button"></div>
     </form>
   <!--<span>{{ searchData }}</span>-->
   </div>
@@ -40,7 +53,8 @@
         searchData: {
           from: '',
           to: '',
-          radius: '',
+          radiusTo: '25',
+          radiusFrom: '25',
           date: {
             start: new Date(),
             end: new Date(),
@@ -49,7 +63,7 @@
          //works like css, for what is disabled we can choose the style to give the content
         disabledAttribute: {
             contentStyle: {
-            opacity: 0.3,
+              opacity: 0.3,
           }
         },
       }
