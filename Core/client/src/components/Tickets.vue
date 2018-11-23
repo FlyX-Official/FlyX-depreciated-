@@ -1,6 +1,11 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
+    <select class="sortingselect">
+      <option value="sortDate">Date</option>
+      <option value="sortPrice">Price</option>
+      <option value="sortDuration">Duration</option>
+    </select>
     <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
         <div class="modal-header">
@@ -149,18 +154,6 @@
         var modal= document. getElementById('simpleModal');
         modal.style.display = "block";
         console.log('didnt work');
-      },
-    },
-    computed: {
-      sortedTickets: function() {
-      function compare(a, b) {
-        if (a.pennyPrice < b.pennyPrice)
-          return -1;
-        if (a.pennyPrice > b.pennyPrice)
-          return 1;
-        return 0;
-      }
-      return this.tickets.sort(compare);
       },
     }
   }

@@ -135,7 +135,15 @@ body{
         grid-area: tickets;
         background-color: #fd6b6d;
         overflow: scroll;
-        
+
+        .sortingselect {
+            position: relative;
+            text-align-last: center;
+            left: 27%;
+            width: 125px;
+            padding: 5px;
+            font-size: 20px;
+        }
         .modal {
             display: none;
             position: fixed;
