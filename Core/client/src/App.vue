@@ -2,6 +2,7 @@
   <div id="app">
     <!--<router-view/>-->
     <div class="grid-container">
+      <Title />
       <Nav />
       <Tickets />
       <Map />
