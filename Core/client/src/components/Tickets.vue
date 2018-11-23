@@ -131,17 +131,20 @@
         if(ticket.legs.length == 2) {
           document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["0"].arrivingAt + ' on ' + ticket.legs["0"].arrivalTime + ' Leave on ' + ticket.legs["1"].departureTime;
         }
-        else if(ticket.legs.length == 3 ){
+        else if(ticket.legs.length == 3){
           document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["0"].arrivingAt + ' on ' + ticket.legs["0"].arrivalTime + ' Leave on ' + ticket.legs["1"].departureTime;
           document.getElementById("ticketlegs2").innerHTML = 'Arrive in ' + ticket.legs["1"].arrivingAt + ' on ' + ticket.legs["1"].arrivalTime + ' Leave on ' + ticket.legs["2"].departureTime;
         }
         else if(ticket.legs.length == 4){
           document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["0"].arrivingAt + ' on ' + ticket.legs["0"].arrivalTime + ' Leave on ' + ticket.legs["1"].departureTime;
-          document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["1"].arrivingAt + ' on ' + ticket.legs["1"].arrivalTime + ' Leave on ' + ticket.legs["2"].departureTime;
-          document.getElementById("ticketlegs").innerHTML = 'Arrive in ' + ticket.legs["2"].arrivingAt + ' on ' + ticket.legs["2"].arrivalTime + ' Leave on ' + ticket.legs["3"].departureTime;
+          document.getElementById("ticketlegs2").innerHTML = 'Arrive in ' + ticket.legs["1"].arrivingAt + ' on ' + ticket.legs["1"].arrivalTime + ' Leave on ' + ticket.legs["2"].departureTime;
+          document.getElementById("ticketlegs3").innerHTML = 'Arrive in ' + ticket.legs["2"].arrivingAt + ' on ' + ticket.legs["2"].arrivalTime + ' Leave on ' + ticket.legs["3"].departureTime;
         }
         else{
           document.getElementById("ticketlegs").innerHTML = 'none';
+          document.getElementById("ticketlegs2").innerHTML = '';
+          document.getElementById("ticketlegs3").innerHTML = '';
+
         }
         console.log(ticket);
 
