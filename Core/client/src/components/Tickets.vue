@@ -1,11 +1,6 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
-    <select class="sortingselect">
-      <option value="sortDate">Date</option>
-      <option value="sortPrice">Price</option>
-      <option value="sortDuration">Duration</option>
-    </select>
     <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
         <div class="modal-header">
@@ -60,7 +55,7 @@
         pennyPrice: (...)
         to: (...)
     -->
-    <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in tickets" :key="ticket.pennyPrice" >
+    <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in tickets" :key="ticket.key" >
       <div class="ticket-from-to">
         <p>{{ ticket.from }}</p>
         <img src="../assets/Divider.svg">
@@ -105,12 +100,10 @@
         return (price/100).toFixed(2);
       },
       convertSeconds: function (seconds) {
-        var date = new Date(null);
-        date.setSeconds(seconds); 
-        var timeString = date.toISOString().substr(11, 8);
-
-        let parts = timeString.split(':');
-        let time = parts[0]+' Hours '+parts[1]+' minutes';
+        var hours = Math.floor(seconds/3600);
+        var minutes = Math.floor((seconds%86400)%3600/60);
+        var time = hours + ' hours, ' + minutes + ' minutes';
+        
         return time;
       },
       removeDay: function (dateStr) {
@@ -125,7 +118,7 @@
         document.getElementById("ticketto").innerHTML = ticket.legs[(ticket.legs.length-1)].arrivingAt;
         document.getElementById("ticketairline").innerHTML= ticket.legs["0"].airline;
         document.getElementById("ticketduration").innerHTML = this.convertSeconds(ticket.duration);
-        document.getElementById("ticketarrival").innerHTML = this.removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime);
+        document.getElementById("ticketarrival").innerHTML = ticket.legs[(ticket.legs.length-1)].arrivalTime;
         document.getElementById("ticketdeparture").innerHTML = ticket.departure;
         document.getElementById("ticketprice").innerHTML = '$' + this.convertPennies(ticket.pennyPrice);
         if(ticket.legs.length == 2) {
@@ -156,7 +149,6 @@
       modalstayopen: function (event) {
         var modal= document. getElementById('simpleModal');
         modal.style.display = "block";
-        console.log('didnt work');
       },
     }
   }
