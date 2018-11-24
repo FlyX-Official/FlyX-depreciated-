@@ -1,6 +1,7 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
+    <button class="sort">Sort by Price</button>
     <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
         <div class="modal-header">
@@ -84,10 +85,13 @@
     data() {
       return {
         // Instance(component) bound ticket array
-        tickets: []
+        tickets: [],
+        pricetickets: [],
+        durationtickets: [], 
       }
     },
     mounted() {
+      this.sortarrays();
       // This block listens for a 'ticketComm' event and then stores the data
       // that was emitted into our local 'tickets' array.
       this.$root.$on('ticketComm', data => {
@@ -149,6 +153,39 @@
       modalstayopen: function (event) {
         var modal= document. getElementById('simpleModal');
         modal.style.display = "block";
+      },
+      sortarrays: function () {
+        var i;
+        var j;
+        var min;
+        this.pricetickets = this.tickets;
+        this.durationtickets = this.tickets;
+        for (i =0; i< this.tickets.length-1; i++){
+            min=i;
+            for (j = i+1; j< this.tickets.length; j++){
+              if(this.pricetickets[min].pennyPrice > this.pricetickets[j].pennyPrice){
+                min = j;
+              }
+            } 
+            var temp = this.pricetickets[i];
+            this.pricetickets[i]= this.pricetickets[min];
+            this.pricetickets[min]=temp;
+        }
+
+
+        //now we sort for duration
+        for (i =0; i< this.tickets.length-1; i++){
+            min=i;
+            for (j = i+1; j< this.tickets.length; j++){
+              if(this.durationtickets[min].duration > this.durationtickets[j].duration){
+                min = j;
+              }
+            } 
+            var temp = this.durationtickets[i];
+            this.durationtickets[i]= this.durationtickets[min];
+            this.durationtickets[min]=temp;
+        }
+        console.log(this.durationtickets);
       },
     }
   }
