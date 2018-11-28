@@ -16,7 +16,7 @@
         :pane-width="150"
         name="date"
         mode='range'
-        :available-dates='{ start: new Date(), end: new Date(), span: 90 }'
+        :available-dates='{ start: new Date(), end: new Date(), span: 180 }'
         :disabledAttribute='disabledAttribute'
         v-model='searchData.date'
         show-caps>
@@ -27,7 +27,7 @@
         :pane-width="150"
         name="date"
         mode='range'
-        :available-dates='{ start: new Date(), end: new Date(), span: 90 }'
+        :available-dates='{ start: new Date(), end: new Date(), span: 180 }'
         :disabledAttribute='disabledAttribute'
         v-model='searchData.date'
         show-caps>

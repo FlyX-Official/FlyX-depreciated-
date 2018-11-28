@@ -93,6 +93,7 @@ body{
             }
             #return-datepicker{
                 grid-area: returnDate;
+                display: none;
             }
             #submit-input{
                 grid-area: submit;
