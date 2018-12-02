@@ -1,7 +1,7 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
-    <button class="sort">Sort by Price</button>
+    <button class="sort" v-on:click:="show==false">Sort by Price</button>
     <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
         <div class="modal-header">
@@ -56,7 +56,7 @@
         pennyPrice: (...)
         to: (...)
     -->
-    <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in tickets" :key="ticket.key" >
+    <div class="ticket" v-on:click="displayticketdetails(ticket)" v-if='show' v-for="ticket in tickets" :key="ticket.key" >
       <div class="ticket-from-to">
         <p>{{ ticket.from }}</p>
         <img src="../assets/Divider.svg">
@@ -88,6 +88,7 @@
         tickets: [],
         pricetickets: [],
         durationtickets: [], 
+        show: true
       }
     },
     mounted() {
