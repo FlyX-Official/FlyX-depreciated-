@@ -352,12 +352,12 @@ body{
                 cursor: pointer;
                 box-shadow: 5px 0 10px rgba(0,0,0,0.25), 3px 0 3px rgba(0,0,0,0.22);
             }
-            //&:nth-child(n) .ticket-color{
-                //background-color: #57B8FF;
-           // }
-           // &:nth-child(even) .ticket-color{
-               // background-color: #50e3c2;
-            //}
+            &:nth-child(odd) .ticket-color{
+                background-color: #57B8FF;
+            }
+            &:nth-child(even) .ticket-color{
+                background-color: #50e3c2;
+            }
         }
     }
     .map-wrap{
