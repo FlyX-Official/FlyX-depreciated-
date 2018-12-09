@@ -62,16 +62,184 @@ app.post('/search', (req, res) => {
   sourceAirport = sourceAirport.toUpperCase();
   destAirport = destAirport.toUpperCase();
 
-  // Get skiplagged ticket data and store into an array of Promises
+  // Use this line to do single matchup search (uses user input as parameters)
   var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger, duration);
+
+  // Use this line to do radius search using the test dummy data (testSource & testDest)
+  //var ticketArray = radiusSearch(testSource, testDest, yearInteger, monthInteger, dayOfMonthInteger, duration);
 
   // Once ALL promises in the ticketArray have resolved...send a response containing the ticketArray
   Promise.all(ticketArray).then(ticketArray => {
+
+    // This filters out any tickets that were undefined (the airports did not have any flights between them)
+    var filteredTickets = ticketArray.filter(function (value, index, arr) {
+      return value.pennyPrice > 0;
+    });
+    
     res.send({
-      tickets: ticketArray
+      tickets: filteredTickets
     });
   });
 });
+
+// TEST DATA
+var testSource = {
+  "took": 1,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": 4,
+    "max_score": 1,
+    "hits": [{
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "JeXLkmYBfxbUkpbiIxwJ",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "LAX",
+          "location": "9q5c1e1cmsy1",
+          "OriginCity": "Los Angeles"
+        }
+      },
+      {
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "B-XLkmYBfxbUkpbiIBzC",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "EDW",
+          "location": "9qhnt6r6xtur",
+          "OriginCity": "Edwards"
+        }
+      },
+      {
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "Q-XLkmYBfxbUkpbiJRxq",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "ONT",
+          "location": "9qh3eztwd4kr",
+          "OriginCity": "Ontario"
+        }
+      },
+      {
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "ZuXLkmYBfxbUkpbiKBwR",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "SNA",
+          "location": "9muptf7phtey",
+          "OriginCity": "Santa Ana"
+        }
+      }
+    ]
+  }
+};
+
+// TEST DATA
+var testDest = {
+  "took": 3,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": 4,
+    "max_score": 1,
+    "hits": [{
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "SuXLkmYBfxbUkpbiJRzx",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "PHL",
+          "location": "dr46zf7neks5",
+          "OriginCity": "Philadelphia"
+        }
+      },
+      {
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "IuXLkmYBfxbUkpbiIhzJ",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "JFK",
+          "location": "dr5x1n7b5008",
+          "OriginCity": "New York"
+        }
+      },
+      {
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "CuXLkmYBfxbUkpbiIRwA",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "EWR",
+          "location": "dr5r2rb50000",
+          "OriginCity": "Newark"
+        }
+      },
+      {
+        "_index": "upflights",
+        "_type": "_doc",
+        "_id": "K-XLkmYBfxbUkpbiIxx5",
+        "_score": 1,
+        "_source": {
+          "Airportcode": "LGA",
+          "location": "dr5ryzr87sz3",
+          "OriginCity": "New York"
+        }
+      }
+    ]
+  }
+};
+
+// This function takes the return data of elasticsearch radius search and 
+// consolidates it, returning an array of objects, each obj containing airport matchups.
+// eg. [{sourceCode: 'LAX',destCode: 'JFK'},{sourceCode: 'LAX',destCode: 'PHL'},...]
+function matchAirports(testSource, testDest) {
+
+  var airportCodePairs = [];
+
+  for (var i = 0; i < testSource.hits.hits.length; i++) {
+    for (var j = 0; j < testDest.hits.hits.length; j++) {
+      let matchup = {
+        sourceCode: '',
+        destCode: ''
+      };
+
+      matchup.sourceCode = testSource.hits.hits[i]._source.Airportcode;
+      matchup.destCode = testDest.hits.hits[j]._source.Airportcode;
+      airportCodePairs.push(matchup);
+    }
+  }
+  //console.log(airportCodePairs);
+  return airportCodePairs;
+}
+
+function radiusSearch(testSource, testDest, year, month, date, duration) {
+
+  var ticketArray = [];
+
+  var airportCodePairs = matchAirports(testSource, testDest);
+
+  for (var i = 0; i < airportCodePairs.length; i++) {
+    let singleMatchupTickets = getSkiplagged(airportCodePairs[i].sourceCode, airportCodePairs[i].destCode, year, month, date, duration);
+    ticketArray = ticketArray.concat(singleMatchupTickets);
+  }
+
+  return ticketArray;
+}
 
 //This function will pull ticket data from skiplagged API and return an array of ticket promises
 function getSkiplagged(sourceAirport, destAirport, year, month, date, duration) {
@@ -80,7 +248,7 @@ function getSkiplagged(sourceAirport, destAirport, year, month, date, duration) 
   var dateMoment = moment().year(year).month(month - 1).date(date);
 
   // log the moment date object
-  console.log(dateMoment);
+  //console.log(dateMoment);
 
   // create empty array to store ticket promises
   var ticketArray = [];
@@ -112,13 +280,15 @@ function getSkiplagged(sourceAirport, destAirport, year, month, date, duration) 
         legs: []
       }
 
-      // populate the local ticket object with the return data
-      ticket.pennyPrice = response[0].price_pennies;
-      ticket.duration = response[0].durationSeconds;
-      ticket.departure = response[0].departureTime;
-      ticket.arrival = response[0].arrivalTime;
-      ticket.key = response[0].flight_key;
-      ticket.legs = response[0].legs;
+      if (typeof response[0] !== "undefined") {
+        // populate the local ticket object with the return data
+        ticket.pennyPrice = response[0].price_pennies;
+        ticket.duration = response[0].durationSeconds;
+        ticket.departure = response[0].departureTime;
+        ticket.arrival = response[0].arrivalTime;
+        ticket.key = response[0].flight_key;
+        ticket.legs = response[0].legs;
+      }
 
       // return the local ticket object as a promise
       return ticket;

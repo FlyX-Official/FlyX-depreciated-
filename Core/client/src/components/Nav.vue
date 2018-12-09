@@ -1,5 +1,8 @@
 <template>
   <div class="nav-wrap">
+    <div class="logo">
+      <img src="../assets/flightsniffer.svg">
+    </div>
     <form class="search-form" @submit.prevent="send()">
       <input type="text" required id="from-input" v-model="searchData.from" name="from" placeholder="From">
       <input type="text" required id="to-input" v-model="searchData.to" name="to" placeholder="To">
@@ -16,7 +19,7 @@
         :pane-width="150"
         name="date"
         mode='range'
-        :available-dates='{ start: new Date(), end: new Date(), span: 90 }'
+        :available-dates='{ start: new Date(), end: new Date(), span: 180 }'
         :disabledAttribute='disabledAttribute'
         v-model='searchData.date'
         show-caps>
@@ -27,7 +30,7 @@
         :pane-width="150"
         name="date"
         mode='range'
-        :available-dates='{ start: new Date(), end: new Date(), span: 90 }'
+        :available-dates='{ start: new Date(), end: new Date(), span: 180 }'
         :disabledAttribute='disabledAttribute'
         v-model='searchData.date'
         show-caps>
