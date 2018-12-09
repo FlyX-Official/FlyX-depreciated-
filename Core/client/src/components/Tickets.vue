@@ -76,7 +76,7 @@
         <div class="ticket-price">
           <p>${{ convertPennies(ticket.pennyPrice) }}</p>
         </div>
-        <div class="ticket-color"  v-bind:style="{backgroundColor: randomColor(ticket)}"></div>
+        <div class="ticket-color"></div>
         <div class="ticket-departure">
           <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
         </div>
@@ -98,7 +98,7 @@
         <div class="ticket-price">
           <p>${{ convertPennies(ticket.pennyPrice) }}</p>
         </div>
-        <div class="ticket-color" v-bind:style="{backgroundColor: randomColor()}"></div>
+        <div class="ticket-color"></div>
         <div class="ticket-departure">
           <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
         </div>
@@ -120,7 +120,7 @@
         <div class="ticket-price">
           <p>${{ convertPennies(ticket.pennyPrice) }}</p>
         </div>
-        <div class="ticket-color" v-bind:style="{backgroundColor: randomColor()}"></div>
+        <div class="ticket-color"></div>
         <div class="ticket-departure">
           <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
         </div>
