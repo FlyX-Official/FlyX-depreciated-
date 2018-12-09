@@ -136,13 +136,16 @@ body{
         background-color: #fd6b6d;
         overflow: scroll;
 
-        .sortingselect {
+        .radio-buttons {
+            display: inline;
             position: relative;
-            text-align-last: center;
-            left: 27%;
-            width: 125px;
-            padding: 5px;
-            font-size: 20px;
+            cursor: pointer;
+            padding: 15px;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         .modal {
             display: none;

@@ -1,9 +1,17 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
-    <input type="radio" name="sortby" v-on:click ="togglesortbydate"> Date<br>
-    <input type="radio" name="sortby" v-on:click="togglesortbyprice"> Price<br>
-    <input type="radio" name="sortby" v-on:click="togglesortbyduration"> Duration<br>
+    <div class="radio-buttons">
+      <label>
+        <input type="radio" id ="origin" name="sortby" v-on:click ="togglesortbydate" checked> Date
+      </label>
+      <label>
+        <input type="radio"  name="sortby" v-on:click="togglesortbyprice"> Price
+      </label>
+      <label>
+        <input type="radio"  name="sortby" v-on:click="togglesortbyduration"> Duration
+      </label>
+    </div>
     <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
         <div class="modal-header">
@@ -145,7 +153,11 @@
       // that was emitted into our local 'tickets' array.
       this.$root.$on('ticketComm', data => {
         this.tickets = data.tickets;
-
+        this.sortbydate = true;
+        this.sortbyprice = true;
+        document.getElementById("origin").checked = true;
+        var modal= document. getElementById('simpleModal');
+        modal.style.display = "none";
       });
     },
     methods: {
@@ -210,6 +222,12 @@
         console.log(this.tickets);
       },
       togglesortbyprice: function () {
+        if(this.tickets.length == 0){
+          document.getElementById("origin").checked = true;
+          console.log("it worked");
+          return;
+        }
+        if(this.pricetickets.length != this.tickets.length){
         var i;
         var j;
         var min;
@@ -225,12 +243,18 @@
             var temp = this.pricetickets[i];
             this.pricetickets[i]= this.pricetickets[min];
             this.pricetickets[min]=temp;
-          }
+          }}
         this.sortbyprice=true;
         this.sortbydate=false;
         console.log(this.pricetickets);
       },
       togglesortbyduration: function () {
+        if(this.tickets.length == 0){
+          document.getElementById("origin").checked = true;
+          console.log("it worked");
+          return;
+        }
+        if(this.durationtickets.length != this.tickets.length){
         var i;
         var j;
         var min;
@@ -244,18 +268,12 @@
             var temp = this.durationtickets[i];
             this.durationtickets[i]= this.durationtickets[min]
             this.durationtickets[min]=temp;
-        }
+        }}
         this.sortbydate=false;
         this.sortbyprice=false;
-        console.log(this.durationtickets);
-      },
-      displayarrays: function () {
         console.log(this.tickets);
-        console.log(this.pricetickets);
-        console.log(this.durationtickets);
-      }
+      },
     },
-    
     }
     
   
