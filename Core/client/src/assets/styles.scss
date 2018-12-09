@@ -28,15 +28,29 @@ body{
     .nav-wrap{
         grid-area: nav;
         background-color: #50E3C2;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 
+        "logo form";
         //box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         z-index: 6;
 
+        .logo{
+            grid-area: logo;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            img{
+                margin-left: 20px;
+            }
+        }
         .search-form{
+            grid-area: form;
+            justify-content: flex-end;
             display: grid;
-            height: 90%;
+            height: 100%;
             grid-gap: 6px;
             margin-right: 15px;
             grid-template-columns: 160px 160px 100px 75px 75px;
@@ -93,6 +107,7 @@ body{
             }
             #return-datepicker{
                 grid-area: returnDate;
+                display: none;
             }
             #submit-input{
                 grid-area: submit;

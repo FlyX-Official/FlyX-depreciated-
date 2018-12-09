@@ -168,7 +168,7 @@
       convertSeconds: function (seconds) {
         var hours = Math.floor(seconds/3600);
         var minutes = Math.floor((seconds%86400)%3600/60);
-        var time = hours + ' hours, ' + minutes + ' minutes';
+        var time = hours + ' hours ' + minutes + ' minutes';
         
         return time;
       },

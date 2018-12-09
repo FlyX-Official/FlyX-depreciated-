@@ -24,8 +24,8 @@ body {
   height: 100%;
   -ms-grid-columns: 300px 1fr;
       grid-template-columns: 300px 1fr;
-  -ms-grid-rows: 80px 1fr;
-      grid-template-rows: 80px 1fr;
+  -ms-grid-rows: 100px 1fr;
+      grid-template-rows: 100px 1fr;
       grid-template-areas: "nav nav" "tickets map";
 }
 
@@ -34,7 +34,132 @@ body {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: nav;
-  background-color: #57B8FF;
+  background-color: #50E3C2;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+      grid-template-areas: "logo form";
+  z-index: 6;
+}
+
+.grid-container .nav-wrap .logo {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: logo;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.grid-container .nav-wrap .logo img {
+  margin-left: 20px;
+}
+
+.grid-container .nav-wrap .search-form {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: form;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  display: -ms-grid;
+  display: grid;
+  height: 100%;
+  grid-gap: 6px;
+  margin-right: 15px;
+  -ms-grid-columns: 160px 160px 100px 75px 75px;
+      grid-template-columns: 160px 160px 100px 75px 75px;
+  -ms-grid-rows: 1fr 35px  35px 1fr;
+      grid-template-rows: 1fr 35px  35px 1fr;
+      grid-template-areas: ". . . . ." "fromInput startDate rFrom rFromDisp submit" "toInput returnDate rTo rToDisp submit" ". . . . .";
+}
+
+.grid-container .nav-wrap .search-form .datepicker input {
+  height: 100%;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: none;
+  padding-left: 5px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  outline: none;
+}
+
+.grid-container .nav-wrap .search-form #from-input {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: fromInput;
+  height: 100%;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: none;
+  padding-left: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  vertical-align: middle;
+  outline: none;
+}
+
+.grid-container .nav-wrap .search-form #to-input {
+  -ms-grid-row: 3;
+  -ms-grid-column: 1;
+  grid-area: toInput;
+  height: 100%;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: none;
+  padding-left: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  outline: none;
+}
+
+.grid-container .nav-wrap .search-form #radius-from {
+  -ms-grid-row: 2;
+  -ms-grid-column: 3;
+  grid-area: rFrom;
+}
+
+.grid-container .nav-wrap .search-form #radius-to {
+  -ms-grid-row: 3;
+  -ms-grid-column: 3;
+  grid-area: rTo;
+}
+
+.grid-container .nav-wrap .search-form #start-datepicker {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: startDate;
+}
+
+.grid-container .nav-wrap .search-form #return-datepicker {
+  -ms-grid-row: 3;
+  -ms-grid-column: 2;
+  grid-area: returnDate;
+  display: none;
+}
+
+.grid-container .nav-wrap .search-form #submit-input {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 5;
+  grid-area: submit;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -44,10 +169,57 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+}
+
+.grid-container .nav-wrap .search-form #submit-input .submit-button {
+  background-image: url("./assets/submit-btn.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 75px;
+  height: 75px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  outline: none;
+}
+
+.grid-container .nav-wrap .search-form #radius-from-disp {
+  -ms-grid-row: 2;
+  -ms-grid-column: 4;
+  grid-area: rFromDisp;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.grid-container .nav-wrap .search-form #radius-to-disp {
+  -ms-grid-row: 3;
+  -ms-grid-column: 4;
+  grid-area: rToDisp;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 700;
 }
 
 .grid-container .tickets-wrap {
@@ -56,6 +228,137 @@ body {
   grid-area: tickets;
   background-color: #fd6b6d;
   overflow: scroll;
+}
+
+.grid-container .tickets-wrap .sortingselect {
+  position: relative;
+  text-align-last: center;
+  left: 27%;
+  width: 125px;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.grid-container .tickets-wrap .modal {
+  display: none;
+  position: fixed;
+  padding-top: 50px;
+  height: 100%;
+  width: 80%;
+  top: 0;
+  left: 300px;
+  z-index: 1;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.grid-container .tickets-wrap .modal-content {
+  background-color: #e7e7e7;
+  margin: 10% auto;
+  width: 60%;
+  -webkit-animation-name: modalopen;
+          animation-name: modalopen;
+  -webkit-animation-duration: .25s;
+          animation-duration: .25s;
+  padding-bottom: 50px;
+}
+
+.grid-container .tickets-wrap .modal-header {
+  background: #50E3c2;
+  padding: 5px;
+  padding-left: 15px;
+  color: #fff;
+  position: relative;
+  text-align: center;
+  font-size: 30px;
+}
+
+.grid-container .tickets-wrap .modal-body {
+  background: #e7e7e7;
+  padding-left: 15px;
+  font-size: 25px;
+  padding-right: 50px;
+  padding-top: 10px;
+  line-height: 50px;
+}
+
+.grid-container .tickets-wrap .modalticketlegs {
+  border: 2px solid  black;
+  line-height: 30px;
+  font-size: 20px;
+}
+
+.grid-container .tickets-wrap .closeBtn {
+  color: #020000;
+  float: right;
+  padding-right: 10px;
+  font-size: 40px;
+}
+
+.grid-container .tickets-wrap .closeBtn:hover, .grid-container .tickets-wrap .closeBtn.focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@-webkit-keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.grid-container .tickets-wrap #ticketfrom, .grid-container .tickets-wrap #text1 {
+  display: inline;
+}
+
+.grid-container .tickets-wrap #text2, .grid-container .tickets-wrap #ticketto {
+  display: inline;
+  position: relative;
+}
+
+.grid-container .tickets-wrap #text3, .grid-container .tickets-wrap #ticketairline {
+  display: inline;
+  position: relative;
+}
+
+.grid-container .tickets-wrap #text4, .grid-container .tickets-wrap #ticketduration {
+  display: inline;
+}
+
+.grid-container .tickets-wrap #text5, .grid-container .tickets-wrap #ticketdeparture {
+  display: inline;
+}
+
+.grid-container .tickets-wrap #text6, .grid-container .tickets-wrap #ticketarrival {
+  display: inline;
+}
+
+.grid-container .tickets-wrap #text7, .grid-container .tickets-wrap #ticketlegs {
+  display: inline;
+}
+
+.grid-container .tickets-wrap #ticketprice {
+  padding-top: 20px;
+  font-size: 75px;
+  color: red;
+  position: relative;
+  text-align: center;
+}
+
+.grid-container .tickets-wrap #ticketlegs {
+  font-size: 20px;
 }
 
 .grid-container .tickets-wrap .ticketLabel {
@@ -98,7 +401,7 @@ body {
       grid-template-columns: 1fr 1fr 20px;
   -ms-grid-rows: 1fr 25px 25px 25px;
       grid-template-rows: 1fr 25px 25px 25px;
-      grid-template-areas: "fromTo price colorx" "depart depart colorx" "return return colorx" "dur legs colorx";
+      grid-template-areas: "fromTo price colorx" "depart depart colorx" "return return colorx" "durlegs durlegs colorx";
 }
 
 .grid-container .tickets-wrap .ticket .ticket-from-to {
@@ -155,16 +458,16 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border-top: 1px dashed #D8D8D8;
 }
 
 .grid-container .tickets-wrap .ticket .ticket-departure img {
-  margin-left: 15px;
   margin-right: 10px;
 }
 
@@ -177,23 +480,24 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border-bottom: 1px dashed #D8D8D8;
 }
 
 .grid-container .tickets-wrap .ticket .ticket-return img {
-  margin-left: 15px;
   margin-right: 10px;
 }
 
-.grid-container .tickets-wrap .ticket .ticket-duration {
+.grid-container .tickets-wrap .ticket .ticket-duration-legs {
   -ms-grid-row: 4;
   -ms-grid-column: 1;
-  grid-area: dur;
+  -ms-grid-column-span: 2;
+  grid-area: durlegs;
   font-size: 12px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -204,24 +508,10 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 5px;
 }
 
-.grid-container .tickets-wrap .ticket .ticket-legs {
-  -ms-grid-row: 4;
-  -ms-grid-column: 2;
-  grid-area: legs;
-  font-size: 12px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-bottom: 5px;
+.grid-container .tickets-wrap .ticket .ticket-duration-legs p {
+  margin: 5px 5px;
 }
 
 .grid-container .tickets-wrap .ticket:hover {
@@ -242,11 +532,9 @@ body {
   -ms-grid-row: 2;
   -ms-grid-column: 2;
   grid-area: map;
-  overflow: hidden;
 }
 
-.grid-container .map-wrap iframe {
-  border: none;
+.grid-container .map-wrap #mapboxgl-map {
   width: 100%;
   height: 100%;
 }
