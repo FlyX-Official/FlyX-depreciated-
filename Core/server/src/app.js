@@ -277,7 +277,8 @@ function getSkiplagged(sourceAirport, destAirport, year, month, date, duration) 
         departure: '',
         arrival: '',
         key: '',
-        legs: []
+        legs: [],
+        color: ''
       }
 
       if (typeof response[0] !== "undefined") {

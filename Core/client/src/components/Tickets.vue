@@ -76,7 +76,7 @@
         <div class="ticket-price">
           <p>${{ convertPennies(ticket.pennyPrice) }}</p>
         </div>
-        <div class="ticket-color"></div>
+        <div class="ticket-color"  v-bind:style="{backgroundColor: randomColor(ticket)}"></div>
         <div class="ticket-departure">
           <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
         </div>
@@ -98,7 +98,7 @@
         <div class="ticket-price">
           <p>${{ convertPennies(ticket.pennyPrice) }}</p>
         </div>
-        <div class="ticket-color"></div>
+        <div class="ticket-color" v-bind:style="{backgroundColor: randomColor()}"></div>
         <div class="ticket-departure">
           <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
         </div>
@@ -120,7 +120,7 @@
         <div class="ticket-price">
           <p>${{ convertPennies(ticket.pennyPrice) }}</p>
         </div>
-        <div class="ticket-color"></div>
+        <div class="ticket-color" v-bind:style="{backgroundColor: randomColor()}"></div>
         <div class="ticket-departure">
           <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
         </div>
@@ -143,7 +143,8 @@
         // Instance(component) bound ticket array
         tickets: [],
         pricetickets: [],
-        durationtickets: [], 
+        durationtickets: [],
+        colorarry: [], 
         sortbydate: true,
         sortbyprice: true
       }
@@ -162,6 +163,13 @@
     },
     methods: {
       // Function to convert the penny price into a real dollar amount
+      randomColor: function (ticket) {
+        var randomColor = require('randomcolor');
+        var color = randomColor();
+        console.log(color);
+        return(color);
+
+      },
       convertPennies: function (price) {
         return (price/100).toFixed(2);
       },
