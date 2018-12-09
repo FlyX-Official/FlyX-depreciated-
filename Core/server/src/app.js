@@ -66,7 +66,7 @@ app.post('/search', (req, res) => {
   var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger, duration);
 
   // Use this line to do radius search using the test dummy data (testSource & testDest)
-  var ticketArray = radiusSearch(testSource, testDest, yearInteger, monthInteger, dayOfMonthInteger, duration);
+  //var ticketArray = radiusSearch(testSource, testDest, yearInteger, monthInteger, dayOfMonthInteger, duration);
 
   // Once ALL promises in the ticketArray have resolved...send a response containing the ticketArray
   Promise.all(ticketArray).then(ticketArray => {
