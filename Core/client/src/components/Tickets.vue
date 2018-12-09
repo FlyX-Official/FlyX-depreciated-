@@ -1,6 +1,17 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
+    <div class="radio-buttons">
+      <label>
+        <input type="radio" id ="origin" name="sortby" v-on:click ="togglesortbydate" checked> Date
+      </label>
+      <label>
+        <input type="radio"  name="sortby" v-on:click="togglesortbyprice"> Price
+      </label>
+      <label>
+        <input type="radio"  name="sortby" v-on:click="togglesortbyduration"> Duration
+      </label>
+    </div>
     <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
         <div class="modal-header">
@@ -55,28 +66,73 @@
         pennyPrice: (...)
         to: (...)
     -->
-    <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in tickets" :key="ticket.key" >
-      <div class="ticket-from-to">
-        <p>{{ ticket.from }}</p>
-        <img src="../assets/Divider.svg">
-        <p>{{ ticket.to }}</p>
-      </div>
-      <div class="ticket-price">
-        <p>${{ convertPennies(ticket.pennyPrice) }}</p>
-      </div>
-      <div class="ticket-color"></div>
-      <div class="ticket-departure">
-        <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
-      </div>
-      <div class="ticket-return">
-        <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
-      </div>
-      <div class="ticket-duration-legs">
-        <p>{{ convertSeconds(ticket.duration) }}</p>
-        <p>{{ ticket.legs.length }} Legs</p>
+    <div v-if='sortbydate'>
+      <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in tickets" :key="ticket.key" >
+        <div class="ticket-from-to">
+          <p>{{ ticket.from }}</p>
+          <img src="../assets/Divider.svg">
+          <p>{{ ticket.to }}</p>
+        </div>
+        <div class="ticket-price">
+          <p>${{ convertPennies(ticket.pennyPrice) }}</p>
+        </div>
+        <div class="ticket-color"  v-bind:style="{backgroundColor: randomColor(ticket)}"></div>
+        <div class="ticket-departure">
+          <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
+        </div>
+        <div class="ticket-return">
+          <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
+        </div>
+        <div class="ticket-duration-legs">
+          <p>{{ ticket.legs.length }} Legs</p>
+        </div>
       </div>
     </div>
-  </div>
+    <div v-else-if='sortbyprice'>
+      <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in pricetickets" :key="ticket.key" >
+        <div class="ticket-from-to">
+          <p>{{ ticket.from }}</p>
+          <img src="../assets/Divider.svg">
+          <p>{{ ticket.to }}</p>
+        </div>
+        <div class="ticket-price">
+          <p>${{ convertPennies(ticket.pennyPrice) }}</p>
+        </div>
+        <div class="ticket-color" v-bind:style="{backgroundColor: randomColor()}"></div>
+        <div class="ticket-departure">
+          <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
+        </div>
+        <div class="ticket-return">
+          <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
+        </div>
+        <div class="ticket-duration-legs">
+          <p>{{ ticket.legs.length }} Legs</p>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="ticket" v-on:click="displayticketdetails(ticket)" v-for="ticket in durationtickets" :key="ticket.key" >
+        <div class="ticket-from-to">
+          <p>{{ ticket.from }}</p>
+          <img src="../assets/Divider.svg">
+          <p>{{ ticket.to }}</p>
+        </div>
+        <div class="ticket-price">
+          <p>${{ convertPennies(ticket.pennyPrice) }}</p>
+        </div>
+        <div class="ticket-color" v-bind:style="{backgroundColor: randomColor()}"></div>
+        <div class="ticket-departure">
+          <img src="../assets/plane-departure.svg"><p>{{ removeDay(ticket.departure) }}</p>
+        </div>
+        <div class="ticket-return">
+          <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
+        </div>
+        <div class="ticket-duration-legs">
+          <p>{{ ticket.legs.length }} Legs</p>
+        </div>
+      </div>
+    </div>
+    </div>
 </template>
 <script>
 /* eslint-disable */
@@ -85,7 +141,12 @@
     data() {
       return {
         // Instance(component) bound ticket array
-        tickets: []
+        tickets: [],
+        pricetickets: [],
+        durationtickets: [],
+        colorarry: [], 
+        sortbydate: true,
+        sortbyprice: true
       }
     },
     mounted() {
@@ -93,10 +154,22 @@
       // that was emitted into our local 'tickets' array.
       this.$root.$on('ticketComm', data => {
         this.tickets = data.tickets;
+        this.sortbydate = true;
+        this.sortbyprice = true;
+        document.getElementById("origin").checked = true;
+        var modal= document. getElementById('simpleModal');
+        modal.style.display = "none";
       });
     },
     methods: {
       // Function to convert the penny price into a real dollar amount
+      randomColor: function (ticket) {
+        var randomColor = require('randomcolor');
+        var color = randomColor();
+        console.log(color);
+        return(color);
+
+      },
       convertPennies: function (price) {
         return (price/100).toFixed(2);
       },
@@ -151,7 +224,66 @@
         var modal= document. getElementById('simpleModal');
         modal.style.display = "block";
       },
+      togglesortbydate: function () {
+        this.sortbydate=true;
+        this.sortbyprice=true;
+        console.log(this.tickets);
+      },
+      togglesortbyprice: function () {
+        if(this.tickets.length == 0){
+          document.getElementById("origin").checked = true;
+          console.log("it worked");
+          return;
+        }
+        if(this.pricetickets.length != this.tickets.length){
+        var i;
+        var j;
+        var min;
+        var temp = this.tickets.slice();
+        this.pricetickets = temp;
+        for (i =0; i< this.pricetickets.length-1; i++){
+            min=i;
+            for (j = i+1; j< this.pricetickets.length; j++){
+              if(this.pricetickets[min].pennyPrice > this.pricetickets[j].pennyPrice){
+                min = j;
+              }
+            } 
+            var temp = this.pricetickets[i];
+            this.pricetickets[i]= this.pricetickets[min];
+            this.pricetickets[min]=temp;
+          }}
+        this.sortbyprice=true;
+        this.sortbydate=false;
+        console.log(this.pricetickets);
+      },
+      togglesortbyduration: function () {
+        if(this.tickets.length == 0){
+          document.getElementById("origin").checked = true;
+          console.log("it worked");
+          return;
+        }
+        if(this.durationtickets.length != this.tickets.length){
+        var i;
+        var j;
+        var min;
+        this.durationtickets = this.tickets.slice();
+        for (i =0; i< this.durationtickets.length-1; i++){
+            min=i;
+            for (j = i+1; j< this.durationtickets.length; j++){
+              if(this.durationtickets[min].duration > this.durationtickets[j].duration){
+                min = j;
+              }}
+            var temp = this.durationtickets[i];
+            this.durationtickets[i]= this.durationtickets[min]
+            this.durationtickets[min]=temp;
+        }}
+        this.sortbydate=false;
+        this.sortbyprice=false;
+        console.log(this.tickets);
+      },
+    },
     }
-  }
+    
+  
 
 </script>
