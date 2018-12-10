@@ -1,16 +1,10 @@
 <template>
   <div class="tickets-wrap">
     <div class="ticketLabel">Tickets</div>
-    <div class="radio-buttons">
-      <label>
-        <input type="radio" id ="origin" name="sortby" v-on:click ="togglesortbydate" checked> Date
-      </label>
-      <label>
-        <input type="radio"  name="sortby" v-on:click="togglesortbyprice"> Price
-      </label>
-      <label>
-        <input type="radio"  name="sortby" v-on:click="togglesortbyduration"> Duration
-      </label>
+    <div class="sort-options">
+      <div class="sort-option" v-on:click="togglesortbyprice">Price</div>
+      <div class="sort-option" v-on:click="togglesortbyduration">Duration</div>
+      <div class="sort-option" v-on:click ="togglesortbydate">Date</div>
     </div>
     <div id="simpleModal" class="modal" v-on:click.self="closedetails($event)">
       <div class="modal-content">
@@ -84,6 +78,7 @@
           <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
         </div>
         <div class="ticket-duration-legs">
+          <p>{{ convertSeconds(ticket.duration) }}</p>
           <p>{{ ticket.legs.length }} Legs</p>
         </div>
       </div>
@@ -106,6 +101,7 @@
           <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
         </div>
         <div class="ticket-duration-legs">
+          <p>{{ convertSeconds(ticket.duration) }}</p>
           <p>{{ ticket.legs.length }} Legs</p>
         </div>
       </div>
@@ -128,6 +124,7 @@
           <img src="../assets/plane-arrival.svg"><p>{{ removeDay(ticket.legs[(ticket.legs.length-1)].arrivalTime) }}</p>
         </div>
         <div class="ticket-duration-legs">
+          <p>{{ convertSeconds(ticket.duration) }}</p>
           <p>{{ ticket.legs.length }} Legs</p>
         </div>
       </div>
@@ -163,13 +160,6 @@
     },
     methods: {
       // Function to convert the penny price into a real dollar amount
-      randomColor: function (ticket) {
-        var randomColor = require('randomcolor');
-        var color = randomColor();
-        console.log(color);
-        return(color);
-
-      },
       convertPennies: function (price) {
         return (price/100).toFixed(2);
       },
