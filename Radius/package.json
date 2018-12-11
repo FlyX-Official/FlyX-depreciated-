@@ -13,7 +13,7 @@
     "bootstrap": "^4.1.1",
     "cors": "^2.8.4",
     "elasticsearch": "^15.1.1",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "vue": "^2.5.16",
     "vue-axios": "^2.1.2"
   },

@@ -78,6 +78,7 @@
           .then(response => {
             // This logs the servers response to the post request
             console.log('Response Recieved');
+            console.log(response);
             
             // This line sends(emits) the ticket data as an event. Other components
             // can listen for this event to have access to the data that is sent.
