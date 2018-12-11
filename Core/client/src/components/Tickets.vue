@@ -153,7 +153,6 @@
         this.tickets = data.tickets;
         this.sortbydate = true;
         this.sortbyprice = true;
-        document.getElementById("origin").checked = true;
         var modal= document. getElementById('simpleModal');
         modal.style.display = "none";
       });

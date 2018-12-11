@@ -1,7 +1,7 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const morgan = require('morgan')
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const morgan = require('morgan');
 
 // Date parsing node module
 const moment = require('moment');
@@ -9,12 +9,12 @@ const moment = require('moment');
 const flightScanner = require('skiplagged-node-api');
 
 // Init App
-const app = express()
+const app = express();
 
 // Setup middleware
-app.use(morgan('combined'))
-app.use(bodyParser.json())
-app.use(cors())
+app.use(morgan('combined'));
+app.use(bodyParser.json());
+app.use(cors());
 
 
 // This block of code is just a reference for the .get method. It has no functionality
@@ -63,10 +63,10 @@ app.post('/search', (req, res) => {
   destAirport = destAirport.toUpperCase();
 
   // Use this line to do single matchup search (uses user input as parameters)
-  var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger, duration);
+  // var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger, duration);
 
   // Use this line to do radius search using the test dummy data (testSource & testDest)
-  //var ticketArray = radiusSearch(testSource, testDest, yearInteger, monthInteger, dayOfMonthInteger, duration);
+  var ticketArray = radiusSearch(testSource, testDest, yearInteger, monthInteger, dayOfMonthInteger, duration);
 
   // Once ALL promises in the ticketArray have resolved...send a response containing the ticketArray
   Promise.all(ticketArray).then(ticketArray => {
@@ -207,22 +207,30 @@ var testDest = {
 // This function takes the return data of elasticsearch radius search and 
 // consolidates it, returning an array of objects, each obj containing airport matchups.
 // eg. [{sourceCode: 'LAX',destCode: 'JFK'},{sourceCode: 'LAX',destCode: 'PHL'},...]
-function matchAirports(testSource, testDest) {
+// console.log(matchAirports(testSource,testDest));
+function matchAirports(sourceAirports, destAirports) {
 
   var airportCodePairs = [];
 
-  for (var i = 0; i < testSource.hits.hits.length; i++) {
-    for (var j = 0; j < testDest.hits.hits.length; j++) {
+  for (var i = 0; i < sourceAirports.hits.hits.length; i++) {
+    for (var j = 0; j < destAirports.hits.hits.length; j++) {
       let matchup = {
         sourceCode: '',
-        destCode: ''
+        destCode: '',
+        sourceGeohash: '',
+        destGeohash: '',
       };
 
-      matchup.sourceCode = testSource.hits.hits[i]._source.Airportcode;
-      matchup.destCode = testDest.hits.hits[j]._source.Airportcode;
+      matchup.sourceCode = sourceAirports.hits.hits[i]._source.Airportcode;
+      matchup.destCode = destAirports.hits.hits[j]._source.Airportcode;
+
+      matchup.sourceGeohash = sourceAirports.hits.hits[i]._source.location;
+      matchup.destGeohash = destAirports.hits.hits[j]._source.location;
+
       airportCodePairs.push(matchup);
     }
   }
+
   return airportCodePairs;
 }
 
@@ -233,15 +241,15 @@ function radiusSearch(testSource, testDest, year, month, date, duration) {
   var airportCodePairs = matchAirports(testSource, testDest);
 
   for (var i = 0; i < airportCodePairs.length; i++) {
-    let singleMatchupTickets = getSkiplagged(airportCodePairs[i].sourceCode, airportCodePairs[i].destCode, year, month, date, duration);
-    ticketArray = ticketArray.concat(singleMatchupTickets);
+    let singleMatchupTicket = getSkiplagged(airportCodePairs[i].sourceCode, airportCodePairs[i].destCode, airportCodePairs[i].sourceGeohash, airportCodePairs[i].destGeohash, year, month, date, duration);
+    ticketArray = ticketArray.concat(singleMatchupTicket);
   }
 
   return ticketArray;
 }
 
 //This function will pull ticket data from skiplagged API and return an array of ticket promises
-function getSkiplagged(sourceAirport, destAirport, year, month, date, duration) {
+function getSkiplagged(sourceAirport, destAirport, sourceGeohash, destGeohash, year, month, date, duration) {
 
   // create moment date object
   var dateMoment = moment().year(year).month(month - 1).date(date);
@@ -277,7 +285,9 @@ function getSkiplagged(sourceAirport, destAirport, year, month, date, duration) 
         arrival: '',
         key: '',
         legs: [],
-        color: ''
+        color: '',
+        sourceLocation: sourceGeohash,
+        destLocation: destGeohash
       }
 
       if (typeof response[0] !== "undefined") {
