@@ -98,7 +98,7 @@ export default {
 
         source.push(sourceLongLat.lon);
         source.push(sourceLongLat.lat);
-        sourceArr.push(source);
+        lineArr.push(source);
 
 
         dest.push(destinationLongLat.lon);
