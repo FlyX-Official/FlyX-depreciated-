@@ -13,18 +13,14 @@ export default {
     return {
       // Instance(component) bound ticket array
       tickets: [],
-      accessToken:
-        "pk.eyJ1IjoiYnJ5Y2VyZW1pY2siLCJhIjoiY2pvZXhsdzVkMzFjeDNxcHVqaXFnZ3YwaSJ9.rt7slaDCfr_grOygun_Qqg",
+      accessToken:"pk.eyJ1IjoiYnJ5Y2VyZW1pY2siLCJhIjoiY2pvZXhsdzVkMzFjeDNxcHVqaXFnZ3YwaSJ9.rt7slaDCfr_grOygun_Qqg",
       mapStyle: "mapbox://styles/bryceremick/cjoexz6d50ffw2ro6qewq3enb",
-      lines: [
-        [[-119.7871, 36.7378], [2.5479, 49.0097]],
-        [[-122.3321, 47.6062], [-73.7781, 40.6413]],
-        [[-104.9903, 39.7392], [-46.6333, -23.5505]]
-      ]
+      lines: []
     };
   },
   mounted() {
     var mapboxgl = require("mapbox-gl/dist/mapbox-gl.js");
+    var Geohash = require('latlon-geohash');
     mapboxgl.accessToken = this.accessToken;
 
     var map = new mapboxgl.Map({
@@ -34,13 +30,18 @@ export default {
       zoom: 1.5
     });
 
-
     // This block listens for a 'ticketComm' event and then stores the data
     // that was emitted into our local 'tickets' array.
     this.$root.$on("ticketComm", data => {
+      console.clear();
       this.tickets = data.tickets;
-
+      
+      this.getGeohash(this.tickets, Geohash);
+      //console.log(this.lines);
+      this.removeLines(map, this.lines);
       this.addLines(map, this.lines);
+      //this.removeLines(map, this.lines)
+    
     });
   },
   methods: {
@@ -72,7 +73,46 @@ export default {
         });
       }
 
-    }
-  }
+    },
+    removeLines: function (map, arr){
+      for(let i = 0; i < arr.length; i++){
+        if(map.getLayer('route' + i)){
+          map.removeLayer('route' + i);
+          map.removeSource('route' + i);
+        }
+        
+        // map.removeLayer('route' + i);
+      }
+    },
+    getGeohash: function(tickets, Geohash){
+      // var destinationArr = [];
+      
+
+      for(let i = 0; i < tickets.length; i++){
+         var lineArr = [];
+        var source = [];
+        var dest = [];
+
+        var sourceLongLat = Geohash.decode(tickets[i].sourceLocation);
+        var destinationLongLat = Geohash.decode(tickets[i].destLocation);
+
+        source.push(sourceLongLat.lon);
+        source.push(sourceLongLat.lat);
+        lineArr.push(source);
+
+
+        dest.push(destinationLongLat.lon);
+        dest.push(destinationLongLat.lat);
+        lineArr.push(dest);
+
+        this.lines.push(lineArr);
+//[[lon, lat][lon,lat]]
+      }
+
+        //console.log(sourceLongLat);
+    }   
+      //  console.log(sourceArr);
+        // console.log(this.coords);
+  },
 };
 </script>
