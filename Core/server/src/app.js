@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const elasticsearch = require('elasticsearch');
 
 // Date parsing node module
 const moment = require('moment');
@@ -16,28 +17,25 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
+const client = new elasticsearch.Client({
+  host: 'https://search-flightsniffer-cvj2fdpizni6puckbeq3d5zjne.us-west-1.es.amazonaws.com',
+  log: 'error'
+});
 
-// This block of code is just a reference for the .get method. It has no functionality
-app.get('/myPosts', (req, res) => {
-  res.send(
-    [{
-        id: 0,
-        title: "Hello World!",
-        description: "Hi there! How are you?"
-      },
-      {
-        id: 1,
-        title: "Hello World!",
-        description: "Hi there! How are you?"
-      }
-    ]
-  )
-})
+client.ping({
+  requestTimeout: 30000
+}, function (error) {
+  if (error) {
+    console.error('elasticsearch cluster is down!');
+  } else {
+    console.log('Everything is ok');
+  }
+});
 
 // This is the block of code that executes when the server recieves a post request
 // with the '/search' endpoint.
 app.post('/search', (req, res) => {
-
+  console.clear();
   // log that the form was submitted
   console.log('Form Submitted');
 
@@ -59,150 +57,57 @@ app.post('/search', (req, res) => {
   var sourceAirport = req.body.from;
   var destAirport = req.body.to;
 
+  // Extract source and destination radius
+  var radiusSource = req.body.radiusTo;
+  var radiusDest = req.body.radiusFrom;
+
+  // Capitalize the Airport Codes
   sourceAirport = sourceAirport.toUpperCase();
   destAirport = destAirport.toUpperCase();
 
-  // Use this line to do single matchup search (uses user input as parameters)
-  // var ticketArray = getSkiplagged(sourceAirport, destAirport, yearInteger, monthInteger, dayOfMonthInteger, duration);
+  // Get the Geohashes of the source and destination airport codes from Elasticsearch
+  var airportGeohashes = [];
+  let sourceAirportGeohash = getAirportGeohash(sourceAirport);
+  let destAirportGeohash = getAirportGeohash(destAirport);
+  airportGeohashes.push(sourceAirportGeohash);
+  airportGeohashes.push(destAirportGeohash);
 
-  // Use this line to do radius search using the test dummy data (testSource & testDest)
-  var ticketArray = radiusSearch(testSource, testDest, yearInteger, monthInteger, dayOfMonthInteger, duration);
+  // Once the elasticsearch promises have resolved...
+  Promise.all(airportGeohashes).then(airportGeohashes => {
 
-  // Once ALL promises in the ticketArray have resolved...send a response containing the ticketArray
-  Promise.all(ticketArray).then(ticketArray => {
+    console.log(airportGeohashes);
 
-    // This filters out any tickets that were undefined (the airports did not have any flights between them)
-    var filteredTickets = ticketArray.filter(function (value, index, arr) {
-      return value.pennyPrice > 0;
-    });
-    
-    res.send({
-      tickets: filteredTickets
+    // Get all the airports within X radius of source and dest geohashes
+    var airportsInRadius = [];
+    let airportsInSourceRadius = getAirportsInRadius(radiusSource, airportGeohashes[0]);
+    let airportsInDestRadius = getAirportsInRadius(radiusDest, airportGeohashes[1]);
+    airportsInRadius.push(airportsInSourceRadius);
+    airportsInRadius.push(airportsInDestRadius);
+
+    // Once the elasticsearch promises have resolved...
+    Promise.all(airportsInRadius).then(airportsInRadius => {
+
+      var ticketArray = radiusSearch(airportsInRadius[0], airportsInRadius[1], yearInteger, monthInteger, dayOfMonthInteger, duration);
+
+      // Once the skiplagged promises have resolved...
+      Promise.all(ticketArray).then(ticketArray => {
+
+        // Filters out any tickets that were undefined (the airports did not have any flights between them)
+        var filteredTickets = ticketArray.filter(function (value, index, arr) {
+          return value.pennyPrice > 0;
+        });
+
+        // Send the ticket data to client
+        res.send({
+          tickets: filteredTickets
+        });
+
+      });
     });
   });
 });
 
-// TEST DATA
-var testSource = {
-  "took": 1,
-  "timed_out": false,
-  "_shards": {
-    "total": 5,
-    "successful": 5,
-    "skipped": 0,
-    "failed": 0
-  },
-  "hits": {
-    "total": 4,
-    "max_score": 1,
-    "hits": [{
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "JeXLkmYBfxbUkpbiIxwJ",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "LAX",
-          "location": "9q5c1e1cmsy1",
-          "OriginCity": "Los Angeles"
-        }
-      },
-      {
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "B-XLkmYBfxbUkpbiIBzC",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "EDW",
-          "location": "9qhnt6r6xtur",
-          "OriginCity": "Edwards"
-        }
-      },
-      {
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "Q-XLkmYBfxbUkpbiJRxq",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "ONT",
-          "location": "9qh3eztwd4kr",
-          "OriginCity": "Ontario"
-        }
-      },
-      {
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "ZuXLkmYBfxbUkpbiKBwR",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "SNA",
-          "location": "9muptf7phtey",
-          "OriginCity": "Santa Ana"
-        }
-      }
-    ]
-  }
-};
 
-// TEST DATA
-var testDest = {
-  "took": 3,
-  "timed_out": false,
-  "_shards": {
-    "total": 5,
-    "successful": 5,
-    "skipped": 0,
-    "failed": 0
-  },
-  "hits": {
-    "total": 4,
-    "max_score": 1,
-    "hits": [{
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "SuXLkmYBfxbUkpbiJRzx",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "PHL",
-          "location": "dr46zf7neks5",
-          "OriginCity": "Philadelphia"
-        }
-      },
-      {
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "IuXLkmYBfxbUkpbiIhzJ",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "JFK",
-          "location": "dr5x1n7b5008",
-          "OriginCity": "New York"
-        }
-      },
-      {
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "CuXLkmYBfxbUkpbiIRwA",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "EWR",
-          "location": "dr5r2rb50000",
-          "OriginCity": "Newark"
-        }
-      },
-      {
-        "_index": "upflights",
-        "_type": "_doc",
-        "_id": "K-XLkmYBfxbUkpbiIxx5",
-        "_score": 1,
-        "_source": {
-          "Airportcode": "LGA",
-          "location": "dr5ryzr87sz3",
-          "OriginCity": "New York"
-        }
-      }
-    ]
-  }
-};
 
 // This function takes the return data of elasticsearch radius search and 
 // consolidates it, returning an array of objects, each obj containing airport matchups.
@@ -212,8 +117,8 @@ function matchAirports(sourceAirports, destAirports) {
 
   var airportCodePairs = [];
 
-  for (var i = 0; i < sourceAirports.hits.hits.length; i++) {
-    for (var j = 0; j < destAirports.hits.hits.length; j++) {
+  for (var i = 0; i < sourceAirports.length; i++) {
+    for (var j = 0; j < destAirports.length; j++) {
       let matchup = {
         sourceCode: '',
         destCode: '',
@@ -221,11 +126,11 @@ function matchAirports(sourceAirports, destAirports) {
         destGeohash: '',
       };
 
-      matchup.sourceCode = sourceAirports.hits.hits[i]._source.Airportcode;
-      matchup.destCode = destAirports.hits.hits[j]._source.Airportcode;
+      matchup.sourceCode = sourceAirports[i]._source.AirportCode;
+      matchup.destCode = destAirports[j]._source.AirportCode;
 
-      matchup.sourceGeohash = sourceAirports.hits.hits[i]._source.location;
-      matchup.destGeohash = destAirports.hits.hits[j]._source.location;
+      matchup.sourceGeohash = sourceAirports[i]._source.location;
+      matchup.destGeohash = destAirports[j]._source.location;
 
       airportCodePairs.push(matchup);
     }
@@ -234,11 +139,11 @@ function matchAirports(sourceAirports, destAirports) {
   return airportCodePairs;
 }
 
-function radiusSearch(testSource, testDest, year, month, date, duration) {
+function radiusSearch(sourceAirports, destAirports, year, month, date, duration) {
 
   var ticketArray = [];
 
-  var airportCodePairs = matchAirports(testSource, testDest);
+  var airportCodePairs = matchAirports(sourceAirports, destAirports);
 
   for (var i = 0; i < airportCodePairs.length; i++) {
     let singleMatchupTicket = getSkiplagged(airportCodePairs[i].sourceCode, airportCodePairs[i].destCode, airportCodePairs[i].sourceGeohash, airportCodePairs[i].destGeohash, year, month, date, duration);
@@ -246,6 +151,67 @@ function radiusSearch(testSource, testDest, year, month, date, duration) {
   }
 
   return ticketArray;
+}
+
+function getAirportGeohash(airportCode) {
+  let body = {
+    size: 100,
+    from: 0,
+    query: {
+      match: {
+        Combined: {
+          query: airportCode,
+          fuzziness: 0
+        }
+      }
+    }
+  }
+  const elasticResults = client.search({
+      index: 'vue-elastic',
+      body: body,
+      type: 'characters_list'
+    })
+    .then(results => {
+      let geoHash = results.hits.hits[0]._source.location1;
+      return geoHash;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+  return elasticResults;
+}
+
+function getAirportsInRadius(radius, geoHash) {
+  let body = {
+    size: 100,
+    query: {
+      bool: {
+        must: {
+          match_all: {}
+        },
+        filter: {
+          geo_distance: {
+            distance: radius + "mi",
+            location: geoHash
+          }
+        }
+      }
+    }
+  }
+  const elasticResults = client.search({
+      index: 'upflights',
+      body: body,
+      type: ''
+    })
+    .then(results => {
+      return results.hits.hits;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+
+  return elasticResults;
+
 }
 
 //This function will pull ticket data from skiplagged API and return an array of ticket promises

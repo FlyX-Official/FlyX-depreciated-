@@ -1,3 +1,4 @@
+/* eslint-disable */
 const express = require('express');
 const app = express();
 const elasticsearch = require('elasticsearch');
@@ -24,57 +25,57 @@ client.ping({
     }
 });
 var testData;
+
+
 app.post('/search', function (req, res) {
 
-    var postQuery = req.body.query;
-    var postRadius = req.body.radius;
-    console.log(postQuery + " " + postRadius);
+    var airportCode = req.body.query;
+    var radius = req.body.radius;
+    var response;
+    console.log('Input Data: ' + airportCode + " " + radius);
 
+    let geohash = getAirportGeohash(airportCode);
+
+    Promise.resolve(geohash).then(geohash => {
+
+        let airportsInRadius = getAirportsInRadius(radius, geohash);
+
+        Promise.resolve(airportsInRadius).then(airportsInRadius => {
+            res.send(airportsInRadius);
+        })
+
+    });
+
+});
+
+function getAirportGeohash(airportCode) {
     let body = {
         size: 100,
         from: 0,
         query: {
             match: {
                 Combined: {
-                    query: postQuery,
+                    query: airportCode,
                     fuzziness: 0
                 }
             }
         }
     }
-
-    client.search({
+    const elasticResults = client.search({
             index: 'vue-elastic',
             body: body,
             type: 'characters_list'
         })
         .then(results => {
-            console.log(results.hits.hits);
-            testData = results.hits.hits[0]._source.location1;
-            console.log(testData);
-            getCitiesInRadius(postRadius,testData,res);
-            
-            //console.log('Original City: '+testData+' Cities in Radius: '+citiesInRadius);
-          
-            //res.send(citiesInRadius);
-
+            let geoHash = results.hits.hits[0]._source.location1;
+            return geoHash;
         })
         .catch(err => {
             console.log(err)
-            res.send([]);
         });
-
-});
-
-
-app.get('upflights/_search', function (req, res) {
-
-
-
-});
-
-function getCitiesInRadius(radius, geoHash, res) {
-
+    return elasticResults;
+}
+function getAirportsInRadius(radius, geoHash) {
     let body = {
         size: 100,
         query: {
@@ -91,23 +92,19 @@ function getCitiesInRadius(radius, geoHash, res) {
             }
         }
     }
-
-    client.search({
+    const elasticResults = client.search({
             index: 'upflights',
             body: body,
             type: ''
         })
         .then(results => {
-            //console.log(results.hits.hits);
-           // return results.hits.hits;
-            //otherCities = results.hits.hits[2]._source.Origin;
-            res.send(results.hits.hits);
-            //console.log(otherData);
+            return results.hits.hits;
         })
         .catch(err => {
             console.log(err)
-            res.send([]);
         });
+
+    return elasticResults;
 
 }
 
