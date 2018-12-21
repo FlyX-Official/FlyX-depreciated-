@@ -23,7 +23,9 @@ If you're doing first time setup/get an error, do `npm install` before doing `np
 
 ---
 Once you have done this you can go to `localhost:8080` to see the site. 
-The express server is at `localhost:8081` if you wish to see the raw data.
+
+#### DISCLAIMER:
+Searching across many days may cause an error from your web browser. This is because each added day to search across greatly increases the complexity of the algorithm, and the amount of API requests we must do. For sake of testing, please limit yourself to less than a week.
 
 ## Play around with it!
 
