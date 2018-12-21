@@ -15,7 +15,8 @@ export default {
       tickets: [],
       accessToken:"pk.eyJ1IjoiYnJ5Y2VyZW1pY2siLCJhIjoiY2pvZXhsdzVkMzFjeDNxcHVqaXFnZ3YwaSJ9.rt7slaDCfr_grOygun_Qqg",
       mapStyle: "mapbox://styles/bryceremick/cjoexz6d50ffw2ro6qewq3enb",
-      lines: []
+      lines: [],
+      deleteLines: false
     };
   },
   mounted() {
@@ -33,15 +34,18 @@ export default {
     // This block listens for a 'ticketComm' event and then stores the data
     // that was emitted into our local 'tickets' array.
     this.$root.$on("ticketComm", data => {
+
       console.clear();
+
       this.tickets = data.tickets;
       
+      if(this.deleteLines){
+        this.removeLines(map, this.lines);
+      }
+
       this.getGeohash(this.tickets, Geohash);
-      //console.log(this.lines);
-      this.removeLines(map, this.lines);
       this.addLines(map, this.lines);
-      //this.removeLines(map, this.lines)
-    
+      this.deleteLines = true;
     });
   },
   methods: {
@@ -68,7 +72,7 @@ export default {
           },
           paint: {
             "line-color": "#ff0000",
-            "line-width": 2
+            "line-width": 1
           }
         });
       }
@@ -76,12 +80,16 @@ export default {
     },
     removeLines: function (map, arr){
       for(let i = 0; i < arr.length; i++){
-        if(map.getLayer('route' + i)){
-          map.removeLayer('route' + i);
-          map.removeSource('route' + i);
-        }
         
-        // map.removeLayer('route' + i);
+        let route = 'route' + i;
+        let visibility = map.getLayoutProperty(route, 'visibility');
+
+        if (visibility === 'visible') {
+            map.setLayoutProperty(route, 'visibility', 'none');
+        } else {
+            map.setLayoutProperty(route, 'visibility', 'visible');
+        }
+
       }
     },
     getGeohash: function(tickets, Geohash){
@@ -104,7 +112,7 @@ export default {
         dest.push(destinationLongLat.lon);
         dest.push(destinationLongLat.lat);
         lineArr.push(dest);
-
+        
         this.lines.push(lineArr);
 //[[lon, lat][lon,lat]]
       }

@@ -1,14 +1,14 @@
 <template>
   <div class="nav-wrap">
     <div class="logo">
-      <img src="../assets/flightsniffer.svg">
+      <a href="/"><img src="../assets/flightsniffer.svg"></a>
     </div>
     <form class="search-form" @submit.prevent="send()">
       <input type="text" required id="from-input" v-model="searchData.from" name="from" placeholder="From">
       <input type="text" required id="to-input" v-model="searchData.to" name="to" placeholder="To">
-      <input type="range" name="radius" v-model="searchData.radiusTo" id="radius-from" value="25" min="0" max="50" class="slider">
+      <input type="range" name="radius" v-model="searchData.radiusTo" id="radius-from" value="25" min="1" max="50" class="slider">
       <p id="radius-from-disp">{{ searchData.radiusTo }} miles</p>
-      <input type="range" name="radius" v-model="searchData.radiusFrom" id="radius-to" value="25" min="0" max="50" class="slider">
+      <input type="range" name="radius" v-model="searchData.radiusFrom" id="radius-to" value="25" min="1" max="50" class="slider">
       <p id="radius-to-disp">{{ searchData.radiusFrom }} miles</p>
       <!--<output name="radiusValue" id="radiusValueID">24</output>-->
        <!-- the vCalendar, see documentation https://docs.vcalendar.io/#welcome-to-v-calendar -->
@@ -19,7 +19,7 @@
         :pane-width="150"
         name="date"
         mode='range'
-        :available-dates='{ start: new Date(), end: new Date(), span: 180 }'
+        :available-dates='{ start: new Date(), end: new Date(), span: 280 }'
         :disabledAttribute='disabledAttribute'
         v-model='searchData.date'
         show-caps>
@@ -30,7 +30,7 @@
         :pane-width="150"
         name="date"
         mode='range'
-        :available-dates='{ start: new Date(), end: new Date(), span: 180 }'
+        :available-dates='{ start: new Date(), end: new Date(), span: 280 }'
         :disabledAttribute='disabledAttribute'
         v-model='searchData.date'
         show-caps>
