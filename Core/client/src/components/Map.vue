@@ -29,7 +29,8 @@ export default {
       container: "mapboxgl-map",
       style: this.mapStyle,
       center: [-28.6731, 14.5994],
-      zoom: 1.5
+      zoom: 1,
+      maxBounds: [ [-180, -85], [180, 85] ]
     });
 
     // This block listens for a 'ticketComm' event and then stores the data
