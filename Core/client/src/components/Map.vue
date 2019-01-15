@@ -16,6 +16,7 @@ export default {
       accessToken:"pk.eyJ1IjoiYnJ5Y2VyZW1pY2siLCJhIjoiY2pvZXhsdzVkMzFjeDNxcHVqaXFnZ3YwaSJ9.rt7slaDCfr_grOygun_Qqg",
       mapStyle: "mapbox://styles/bryceremick/cjoexz6d50ffw2ro6qewq3enb",
       lines: [],
+      linesOnMap: 0,
       deleteLines: false
     };
   },
@@ -37,15 +38,19 @@ export default {
 
       console.clear();
 
+      this.tickets = [];
+      this.lines = [];
       this.tickets = data.tickets;
-      
+
       if(this.deleteLines){
-        this.removeLines(map, this.lines);
+        this.removeLines(map);
+        this.linesOnMap = 0;
       }
 
-      this.getGeohash(this.tickets, Geohash);
+      this.decodeGeohashes(Geohash, this.tickets);
       this.addLines(map, this.lines);
       this.deleteLines = true;
+
     });
   },
   methods: {
@@ -75,29 +80,25 @@ export default {
             "line-width": 1
           }
         });
+
+        this.linesOnMap++;
       }
 
     },
-    removeLines: function (map, arr){
-      for(let i = 0; i < arr.length; i++){
-        
+    removeLines: function (map){
+
+      for(let i = 0; i < this.linesOnMap; i++){
         let route = 'route' + i;
-        let visibility = map.getLayoutProperty(route, 'visibility');
-
-        if (visibility === 'visible') {
-            map.setLayoutProperty(route, 'visibility', 'none');
-        } else {
-            map.setLayoutProperty(route, 'visibility', 'visible');
-        }
-
+        map.removeLayer(route);
+        map.removeSource(route);
       }
+
+
     },
-    getGeohash: function(tickets, Geohash){
-      // var destinationArr = [];
-      
+    decodeGeohashes: function(Geohash, tickets){
 
       for(let i = 0; i < tickets.length; i++){
-         var lineArr = [];
+        var lineArr = [];
         var source = [];
         var dest = [];
 
@@ -114,13 +115,9 @@ export default {
         lineArr.push(dest);
         
         this.lines.push(lineArr);
-//[[lon, lat][lon,lat]]
       }
 
-        //console.log(sourceLongLat);
-    }   
-      //  console.log(sourceArr);
-        // console.log(this.coords);
+    }
   },
 };
 </script>
