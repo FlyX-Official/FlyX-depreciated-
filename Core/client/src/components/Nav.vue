@@ -74,6 +74,9 @@
     methods: {
       // This is the function that sends a post request containing 'searchData' to the server
       send: function () {
+        
+        this.$root.$emit('startedSearch');
+
         Api().post('/search', this.searchData)
           .then(response => {
             // This line sends(emits) the ticket data as an event. Other components

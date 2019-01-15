@@ -17,7 +17,9 @@
         pennyPrice: (...)
         to: (...)
     -->
-    <div v-if="isSortDate">
+    <p id='presearch-message' v-if='dispMessage'>Enter in your trip info to find tickets!</p>
+    <div id='search-spinner' v-if='dispSpinner'></div>
+    <div v-if="isSortDate && !dispSpinner">
       <div class="ticket" v-for="ticket in ticketsByDate" :key="ticket.key">
         <div class="ticket-from-to">
           <p>{{ ticket.from }}</p>
@@ -42,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="isSortPrice">
+    <div v-else-if="isSortPrice && !dispSpinner">
       <div class="ticket" v-for="ticket in ticketsByPrice" :key="ticket.key">
         <div class="ticket-from-to">
           <p>{{ ticket.from }}</p>
@@ -67,7 +69,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="isSortDuration">
+    <div v-else-if="isSortDuration && !dispSpinner">
       <div class="ticket" v-for="ticket in ticketsByDuration" :key="ticket.key">
         <div class="ticket-from-to">
           <p>{{ ticket.from }}</p>
@@ -108,7 +110,9 @@ export default {
       ticketsByDate: [],
       isSortPrice: false,
       isSortDuration: false,
-      isSortDate: false
+      isSortDate: false,
+      dispMessage: true,
+      dispSpinner: false,
     };
   },
   mounted() {
@@ -118,10 +122,16 @@ export default {
     // Sunday, January 13th 2019, 05:45am
     // 'January 13, 2019, 5:45 am'
 
+    this.$root.$on('startedSearch', () => {
+      this.dispMessage = false;
+      this.dispSpinner = true;
+    }); 
+
     // This block listens for a 'ticketComm' event and then stores the data
     // that was emitted into our local 'tickets' array.
     this.$root.$on("ticketComm", data => {
 
+      this.dispSpinner = false;
       this.ticketsByPrice = [];
       this.ticketsByDuration = [];
       this.ticketsByDate = [];
