@@ -90,7 +90,7 @@ app.post('/search', (req, res) => {
       // Do radius search - radiusSearch calls functions matchAirports() and getSkiplagged()
       // Returns an array of tickets (promises)
       var ticketArray = radiusSearch(airportsInRadius[0], airportsInRadius[1], yearInteger,
-         monthInteger, dayOfMonthInteger, duration);
+        monthInteger, dayOfMonthInteger, duration);
 
       // Once the skiplagged promises have resolved...
       Promise.all(ticketArray).then(ticketArray => {
@@ -108,15 +108,15 @@ app.post('/search', (req, res) => {
       });
     });
   });
-  
+
 });
 
 
 /* ******************************************************************************
-* This function takes the return data of elasticsearch radius search and 
-* consolidates it, returning an array of objects, each obj containing airport matchups.
-* eg. [{sourceCode: 'LAX', destCode: 'JFK', sourceGeohash: 'xxxxxxxxx', destGeohash: 'xxxxxxxxx'},{...},{...}]
-**********************************************************************************/
+ * This function takes the return data of elasticsearch radius search and 
+ * consolidates it, returning an array of objects, each obj containing airport matchups.
+ * eg. [{sourceCode: 'LAX', destCode: 'JFK', sourceGeohash: 'xxxxxxxxx', destGeohash: 'xxxxxxxxx'},{...},{...}]
+ **********************************************************************************/
 function matchAirports(sourceAirports, destAirports) {
 
   // create local array to house airport pairs (matchups)
@@ -226,7 +226,7 @@ function getAirportGeohash(airportCode) {
  * Return: array of airports within X distance of specified geohash
  *********************************************************************************/
 function getAirportsInRadius(radius, geoHash) {
-  
+
   // create query to pass into elasticsearch
   let body = {
     size: 100,
@@ -263,10 +263,8 @@ function getAirportsInRadius(radius, geoHash) {
 }
 
 //This function will pull ticket data from skiplagged API and return an array of ticket promises
-function getSkiplagged(sourceAirport, destAirport, sourceGeohash, destGeohash, year, month, date, duration) {
-
-  // create moment date object (this is used to iterate over days)
-  var dateMoment = moment().year(year).month(month - 1).date(date);
+const getSkiplagged = (sourceAirport, destAirport, sourceGeohash, destGeohash, year, month, date, duration) => {
+var dateMoment = moment().year(year).month(month - 1).date(date);
 
   // create empty array to store ticket promises
   var ticketArray = [];
@@ -300,7 +298,7 @@ function getSkiplagged(sourceAirport, destAirport, sourceGeohash, destGeohash, y
         sourceLocation: sourceGeohash,
         destLocation: destGeohash
       }
-      
+
       // If the ticket is not "undefined" (no ticket available for specified params)
       if (typeof response[0] !== "undefined") {
         // populate the local ticket object with the return data
@@ -341,3 +339,7 @@ function concatZero(i) {
 app.listen(process.env.PORT || 8081, function () {
   console.log('server started');
 })
+
+module.exports = {
+concatZero: concatZero
+}
