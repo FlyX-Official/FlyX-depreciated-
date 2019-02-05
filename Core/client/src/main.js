@@ -5,16 +5,20 @@ import App from './App'
 import router from './router'
 import VCalendar from 'v-calendar'
 import 'v-calendar/lib/v-calendar.min.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 Vue.use(VCalendar)
 
 // import Vuetify from 'vuetify'
 // import 'vuetify/dist/vuetify.min.css'
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'
-
 // Vue.use(Vuetify)
 
-Vue.config.productionTip = false
+/*
+***** Enable production mode *********
+Vue.config.productionTip = false 
+**************************************
+*/
 
 /* eslint-disable no-new */
 new Vue({
