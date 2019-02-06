@@ -1,14 +1,14 @@
 <template>
   <div class="nav-wrap">
-    <div class="logo">
+   <!-- <div class="logo">
       <a href="/"><img src="../assets/flightsniffer.svg"></a>
-    </div>
+    </div>-->
     <form class="search-form" @submit.prevent="send()">
       <input type="text" required id="from-input" v-model="searchData.from" name="from" placeholder="From">
       <input type="text" required id="to-input" v-model="searchData.to" name="to" placeholder="To">
-      <input type="range" name="radius" v-model="searchData.radiusTo" id="radius-from" value="25" min="1" max="50" class="slider">
+      <input type="range" name="radius" v-model="searchData.radiusTo" id="radius-from" value="50" min="1" max="50" class="slider">
       <p id="radius-from-disp">{{ searchData.radiusTo }} miles</p>
-      <input type="range" name="radius" v-model="searchData.radiusFrom" id="radius-to" value="25" min="1" max="50" class="slider">
+      <input type="range" name="radius" v-model="searchData.radiusFrom" id="radius-to" value="50" min="1" max="50" class="slider">
       <p id="radius-to-disp">{{ searchData.radiusFrom }} miles</p>
       <!--<output name="radiusValue" id="radiusValueID">24</output>-->
        <!-- the vCalendar, see documentation https://docs.vcalendar.io/#welcome-to-v-calendar -->
@@ -56,8 +56,8 @@
         searchData: {
           from: '',
           to: '',
-          radiusTo: '25',
-          radiusFrom: '25',
+          radiusTo: '50',
+          radiusFrom: '50',
           date: {
             start: new Date(),
             end: new Date(),
@@ -74,12 +74,11 @@
     methods: {
       // This is the function that sends a post request containing 'searchData' to the server
       send: function () {
+        
+        this.$root.$emit('startedSearch');
+
         Api().post('/search', this.searchData)
           .then(response => {
-            // This logs the servers response to the post request
-            console.log('Response Recieved');
-            console.log(response);
-            
             // This line sends(emits) the ticket data as an event. Other components
             // can listen for this event to have access to the data that is sent.
             this.$root.$emit('ticketComm', response.data);
@@ -88,7 +87,7 @@
             // This catches any error the server would send back
             console.log(error);
           });
-      } 
+      }, 
     }
   }
 

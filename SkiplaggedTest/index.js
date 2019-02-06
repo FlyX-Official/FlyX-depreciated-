@@ -50,12 +50,12 @@ for (let i = 1; i < 7; i++){
     let searchOptions = {
         from: 'LAX',
         to: 'CDG',
-        departureDate: '2018-12-'+concatZero(i),
+        departureDate: '2019-02-'+concatZero(i),
         partialTrips: true,
         sort: 'cost'
       };
 
-      const ticketPromise = flightScanner(searchOptions).then(console.log);
+      flightScanner(searchOptions).then(console.log);
       
 }
 
